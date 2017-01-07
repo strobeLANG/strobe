@@ -7,23 +7,15 @@ Other than this, it doesn't have any known bugs, if you find some report them at
 If you want to see how will the Strobe syntax look like, here it is:
 
 ```
-#include<usys.str>
-#include<string.str>
-/*
-	This is a comment.
-*/
-namespace MyConsoleApplication
-{
-	function Main()
-	{
-		$var = new("Hello World");
-		Console.Write($var);
+#include "usys.str"
+
+namespace Name {
+	function Main() {
+		WriteLine("Hello World");
 		System.Exit();
-		return $var; // This is just an example.
 	}
 }
 ```
-You use `#include<filename>` and `#include "filename"` to include files, exactly like C and C++, as you can see functions are put in namespaces, then you can see that there are no data types for functions (it is specified by the returned type), to define a string constant you need to use the `new()` method, it adds the string to the `.data` section, and functions are called like this `namespace.function($arg1, $arg2)`, at the end of the program you must type `System.Exit();` or you won't exit clean, or if you made an other function type `return $someting;` to return `$something`  back to the caller.
 
 The syntax is influenced by the following programming languages:
 
