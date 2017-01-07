@@ -21,7 +21,7 @@ Put universal libraries in here.
 * library `ComplexMath` for everyone, name it:
 `comath.mxs`, save to `lib`;
 * library `Math64` for 64-bit Unix, name it:
-`math64.mxs`, save it to `lib/64`;
+`umath64.mxs`, save it to `lib/64`;
 * library `Something` for Unix, name it:
 `usomet.mxs`, save it to `lib`;
 
