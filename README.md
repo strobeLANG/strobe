@@ -1,14 +1,14 @@
-# The MX Compiler
-The MX Compiler compiles MX code into assembler code for the `NASM` assembler.
-It isn't currently working because of [#1](//github.com/mihail-rotmg/mx/issues/1) and [#2](//github.com/mihail-rotmg/mx/issues/2).
+# The Strobe Compiler
+The Strobe Compiler compiles Strobe code into assembler code for the `NASM` assembler.
+It isn't currently working because of [#1](//github.com/mihail-mojsoski/Strobe/issues/1) and [#2](//github.com/mihail-mojsoski/Strobe/issues/2).
 
-Other than this, it doesn't have any known bugs, if you find some report them at [Issues](//github.com/mihail-rotmg/mx/issues), so we can fix them.
+Other than this, it doesn't have any known bugs, if you find some report them at [Issues](//github.com/mihail-mojsoski/Strobe/issues), so we can fix them.
 
-If you want to see how will the MX syntax look like, here it is:
+If you want to see how will the Strobe syntax look like, here it is:
 
 ```
-#include<usys.mxs>
-#include<string.mxs>
+#include<usys.str>
+#include<string.str>
 /*
 	This is a comment.
 */
@@ -16,14 +16,14 @@ namespace MyConsoleApplication
 {
 	function Main()
 	{
-		$var = String.new("Hello World");
+		$var = new("Hello World");
 		Console.Write($var);
 		System.Exit();
 		return $var; // This is just an example.
 	}
 }
 ```
-You use `#include<filename>` and `#include "filename"` to include files, exactly like C and C++, as you can see functions are put in namespaces, then you can see that there are no data types for functions (it is specified by the returned type), to define a string constant you need to use the `string.mxs`'s `String.new()`, it adds the string to the `.data` section, and functions are called like this `namespace.function($arg1, $arg2)`, at the end of the program you must type `System.Exit();` or you won't exit clean, or if you made an other function type `return $someting;` to return `$something`  back to the caller.
+You use `#include<filename>` and `#include "filename"` to include files, exactly like C and C++, as you can see functions are put in namespaces, then you can see that there are no data types for functions (it is specified by the returned type), to define a string constant you need to use the `new()` method, it adds the string to the `.data` section, and functions are called like this `namespace.function($arg1, $arg2)`, at the end of the program you must type `System.Exit();` or you won't exit clean, or if you made an other function type `return $someting;` to return `$something`  back to the caller.
 
 The syntax is influenced by the following programming languages:
 
