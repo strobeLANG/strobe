@@ -1,10 +1,6 @@
 # The MX Compiler
-The MX Compiler compiles MX code into assembler code for the `NASM` assembler. It isn't currently working because the code generator isn't implemented yet and the parser has a few bugs that are needed to be fixed and they are:
-
- - `Parser.Instruction()`: algorithm is not optimized;
- - `Parser.Instruction()`: not setting the variables inside `Instruction_current.Op`, `Instruction_current.Var` and `Instruction_current.Type` correctly;
- - `ParseTree`: some types are not optimized;
- - `CodeGenerator`: is not started working on;
+The MX Compiler compiles MX code into assembler code for the `NASM` assembler.
+It isn't currently working because of #1 and #2.
 
 Other than this, it doesn't have any known bugs, if you find some report them at [Issues](https://github.com/mihail-rotmg/mx/issues), so we can fix them.
 
