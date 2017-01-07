@@ -11,7 +11,7 @@ If you want to see how will the Strobe syntax look like, here it is:
 
 namespace Name {
 	function Main() {
-		WriteLine("Hello World");
+		Console.WriteLine("Hello World");
 		System.Exit();
 	}
 }
