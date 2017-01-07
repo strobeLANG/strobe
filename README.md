@@ -1,8 +1,8 @@
 # The MX Compiler
 The MX Compiler compiles MX code into assembler code for the `NASM` assembler.
-It isn't currently working because of #1 and #2.
+It isn't currently working because of [#2](//github.com/mihail-rotmg/mx/issues/1) and [#2](//github.com/mihail-rotmg/mx/issues/2).
 
-Other than this, it doesn't have any known bugs, if you find some report them at [Issues](https://github.com/mihail-rotmg/mx/issues), so we can fix them.
+Other than this, it doesn't have any known bugs, if you find some report them at [Issues](//github.com/mihail-rotmg/mx/issues), so we can fix them.
 
 If you want to see how will the MX syntax look like, here it is:
 
