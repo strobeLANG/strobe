@@ -1,6 +1,6 @@
 # The Strobe Compiler
 The Strobe Compiler compiles Strobe code into assembler code for the `NASM` assembler.
-It isn't currently working because of [#1](//github.com/mihail-mojsoski/Strobe/issues/1) and [#2](//github.com/mihail-mojsoski/Strobe/issues/2).
+It isn't currently working because the parser needs to be re-worked and the code generator needs to be started.
 
 Other than this, it doesn't have any known bugs, if you find some report them at [Issues](//github.com/mihail-mojsoski/Strobe/issues), so we can fix them.
 
