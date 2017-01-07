@@ -17,13 +17,13 @@ Put universal libraries in here.
 ### Some Examples
 
 * library `MakeStuff` for Win32, name it:
-`winmakest.mxs`, save to: `lib/32`;
+`winmakest.str`, save to: `lib/32`;
 * library `ComplexMath` for everyone, name it:
-`comath.mxs`, save to `lib`;
+`comath.str`, save to `lib`;
 * library `Math64` for 64-bit Unix, name it:
-`umath.mxs`, save it to `lib/64`;
+`umath.str`, save it to `lib/64`;
 * library `Something` for Unix, name it:
-`usomet.mxs`, save it to `lib`;
+`usomet.str`, save it to `lib`;
 
 ### Did you actually made a working library?
 

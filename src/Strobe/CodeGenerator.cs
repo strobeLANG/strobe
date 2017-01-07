@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MX
+namespace Strobe
 {
 	public class CodeGenerator
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
-namespace MX
+namespace Strobe
 {
 	// The Compiler Class
 	public class Compiler

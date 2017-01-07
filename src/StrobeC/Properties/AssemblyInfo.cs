@@ -4,11 +4,11 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("MX Compiler")]
-[assembly: AssemblyDescription("MX Compiler")]
+[assembly: AssemblyTitle("Strobe Compiler")]
+[assembly: AssemblyDescription("Strobe Compiler")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mihail Mojsoski")]
-[assembly: AssemblyProduct("MX Programming Language")]
+[assembly: AssemblyProduct("Strobe Programming Language")]
 [assembly: AssemblyCopyright("${AuthorCopyright}")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

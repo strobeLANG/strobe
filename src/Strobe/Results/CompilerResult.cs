@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace MX
+namespace Strobe
 {
 	// When the compile is finished, this is returned
 	public class CompilerResult : Result

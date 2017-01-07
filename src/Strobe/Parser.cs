@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace MX
+namespace Strobe
 {
 	public class Parser
 	{

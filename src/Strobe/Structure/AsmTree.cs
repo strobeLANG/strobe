@@ -2,7 +2,7 @@
 using System;
 using System.Text;
 
-namespace MX
+namespace Strobe
 {
 	public class AsmTree
 	{

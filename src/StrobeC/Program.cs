@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System;
-namespace MX.Test
+using Strobe;
+namespace StrobeC
 {
-	class MainClass
+	class MainStrobeC
 	{
 		public static void Main(string[] args)
 		{

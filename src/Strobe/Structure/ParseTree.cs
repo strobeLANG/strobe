@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace MX
+namespace Strobe
 {
 	// The parse tree is bunch of namespaces.
 	public class ParseTree : Data

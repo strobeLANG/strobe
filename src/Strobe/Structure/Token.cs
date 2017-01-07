@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace MX
+namespace Strobe
 {
 	// The token class
 	public class Token
