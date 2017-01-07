@@ -1,0 +1,20 @@
+#define dat "nln: dd 0xA"
+
+namespace String
+{
+	function Length($Input)
+	{
+		raw("mov rdi, [MX_String_Length_Input]");
+		raw("push rbx");
+		raw("push rcx");
+		raw("mov rbx,rdi");
+		raw("xor al,al");
+		raw("mov rcx,0xffffffff");
+		raw("repne scasb");
+		raw("sub rdi,rbx");
+		raw("mov rax,rdi");
+		raw("pop rcx");
+		raw("pop rbx");
+		return @RAX;
+	}
+}
