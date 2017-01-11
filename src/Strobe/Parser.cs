@@ -293,21 +293,21 @@ namespace Strobe
 
 		public ParserResult get()
 		{
-			foreach (Namespace x in Tree.Namespaces) {
-				System.Console.WriteLine ("Namespace: {0}",x.Name);
-				foreach (Function y in x.Functions)
-				{
-					System.Console.WriteLine ("+Function: {0}",y.Name);
-					foreach (Instruction z in y.Instructions) {
-						System.Console.WriteLine ("++Instruction: {0} ", z.Func.Namespace+"."+z.Func.Function);
-						System.Console.WriteLine ("+++Variable: ", z.Var.Name);
-						System.Console.WriteLine ("+++Operator: ", z.Op.Type);
-						foreach (Variable v in z.Func.Arguments.Arguments) {
-							System.Console.WriteLine ("++++Argument: " + v.Name);
-						}
-					}
-				}
-			}
+			//foreach (Namespace x in Tree.Namespaces) {
+				//System.Console.WriteLine ("Namespace: {0}",x.Name);
+				//foreach (Function y in x.Functions)
+				//{
+				//	System.Console.WriteLine ("+Function: {0}",y.Name);
+				//	foreach (Instruction z in y.Instructions) {
+				//		System.Console.WriteLine ("++Instruction: {0} ", z.Func.Namespace+"."+z.Func.Function);
+				//		System.Console.WriteLine ("+++Variable: {0}", z.Var.Name);
+				//		System.Console.WriteLine ("+++Operator: {0}", z.Op.Type);
+				//		foreach (Variable v in z.Func.Arguments.Arguments) {
+				//			System.Console.WriteLine ("++++Argument: {0}", v.Name);
+				//		}
+				//	}
+				//}
+			//}
 			return new ParserResult
 			{
 				Errors = Res.Errors,

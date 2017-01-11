@@ -45,6 +45,7 @@
     <Compile Include="Parser.cs" />
     <Compile Include="Structure\AsmTree.cs" />
     <Compile Include="CodeGenerator.cs" />
+    <Compile Include="Results\CodeGeneratorResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Structure\" />

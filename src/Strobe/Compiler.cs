@@ -23,6 +23,7 @@ namespace Strobe
 			LexerResult lexer;
 			SimplifierResult simplifier;
 			ParserResult parser;
+			CodeGeneratorResult codegen;
 
 			// Lexical analysis
 			lexer = new Lexer(input).get();
@@ -101,12 +102,38 @@ namespace Strobe
 				};
 			}
 
+			// Do the rest of the work
+			codegen = new CodeGenerator(parser.Tree).get();
+
+			// Warnings
+			foreach (Info e in codegen.Warnings)
+			{
+				Res.Warnings.Add((Warning)e);
+			}
+
+			// See if there are any errors in the parser
+			if (parser.Errors.Count > 0)
+			{
+				// Errors were found, and add them to total errors
+				foreach (Info e in codegen.Errors)
+				{
+					Res.Errors.Add((Error)e);
+				}
+				// Return the errors with an almost empty array of bytes
+				return new CompilerResult
+				{
+					Errors = Res.Errors,
+					Warnings = Res.Warnings,
+					Bytes = new byte[] { 0 },
+				};
+			}
+
 			// Return the result
 			return new CompilerResult
 			{
 				Errors = Res.Errors,
 				Warnings = Res.Warnings,
-				Bytes = new byte[] { 0 },
+				Bytes = codegen.Code,
 			};
 		}
 	}
