@@ -1,5 +1,7 @@
 # The Libraries
 
+## OUTDATED, THIS SYSTEM WILL CHANGE ##
+
 * Put 32-bit libraries in /32/
 * Put 64 bit libraries in /64/
 
