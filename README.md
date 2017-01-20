@@ -7,11 +7,11 @@ Other than this, it doesn't have any known bugs, if you find some report them at
 If you want to see how will the Strobe syntax look like, here it is:
 
 ```
-#include "usys.str"
+#include "bioslib.str"
 
 namespace Name {
 	function Main() {
-		Console.WriteLine("Hello World");
+		System.Write("Hello World\n");
 		System.Exit();
 	}
 }
@@ -23,6 +23,11 @@ The syntax is influenced by the following programming languages:
  - X# - for the namespaces, functions and idea;
  - C# - for the namespaces and library names;
  - PHP - for the variables and functions;
+
+### Currently Working On:
+#### VM Functions and Loops
+#### DIF Executeables
+#### Documentation
 
 ###Do you want to support us?
 #### Contribute!
