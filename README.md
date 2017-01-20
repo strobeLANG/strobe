@@ -1,5 +1,5 @@
 # The Strobe Compiler
-The Strobe Compiler compiles Strobe code into MDF executeable that will be able to be executed in our VM.
+The Strobe Compiler compiles Strobe code into DIF executeable that will be able to be executed in our VM.
 It isn't currently working because the parser needs to be re-worked and the code generator needs to be completed.
 
 Other than this, it doesn't have any known bugs, if you find some report them at [Issues](//github.com/mihail-mojsoski/Strobe/issues), so we can fix them.
