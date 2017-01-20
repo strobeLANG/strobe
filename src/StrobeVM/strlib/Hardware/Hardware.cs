@@ -77,7 +77,7 @@ namespace StrobeVM.Hardware
 					bios.WriteFile(kernel.AMem(1),kernel.AMem(2));
 					return new byte[] { };
 				case 8:
-					bios.WriteFile(kernel.AMem(1), kernel.AMem(2));
+					bios.AppendFile(kernel.AMem(1), kernel.AMem(2));
 					return new byte[] { };
 				case 9:
 					bios.CreateFolder(kernel.AMem(1));
