@@ -84,6 +84,15 @@ namespace StrobeVM.Firmware
 			}
 		}
 
+		public Executeable[] Save()
+		{
+			List<Executeable> exec = new List<Executeable> ();
+			foreach (Process p in running) {
+				exec.Add (p.Exec);
+			}
+			return exec.ToArray ();
+		}
+
 		/// <summary>
 		/// Start the specified executable.
 		/// </summary>
@@ -129,15 +138,18 @@ namespace StrobeVM.Firmware
 					AMem(p[0], FreeAddr, p[1]);
 					break;
 				case Instruction.OpType.Label:
-					Labels.Add(now.Param[0],loc[currentprocess - 1]);
+					int[] h = proc.TwoArgs(now.Param);
+					Labels.Add(h[0],loc[currentprocess - 1]);
 					break;
 				case Instruction.OpType.Goto:
-					if (Labels.ContainsKey(now.Param[0]))
-					if (AMem(now.Param[1])[0] == 0x0)
-						loc[currentprocess - 1] = Labels[now.Param[0]];
+					int[] c = proc.TwoArgs(now.Param);
+					if (Labels.ContainsKey(c[0]))
+					if (AMem(c[1])[0] == 0x0)
+						loc[currentprocess - 1] = Labels[c[0]];
 					break;
 				case Instruction.OpType.Clear:
-					AMemClear(now.Param[0]);
+					int[] zvzx = proc.TwoArgs(now.Param);
+					AMemClear(zvzx[0]);
 					break;
 				default:
 					AMem(0, proc.Execute(now));
@@ -180,6 +192,7 @@ namespace StrobeVM.Firmware
 					Alloc[dest] = new Variable(Alloc[source].Address,Alloc[source].Size);
 					return;
 				}
+				proc.Error(11);
 			}
 			proc.Error(10);
 		}
@@ -292,7 +305,8 @@ namespace StrobeVM.Firmware
 		/// </summary>
 		public struct Process
 		{
-			Instruction[] Inst;
+			private Instruction[] Inst;
+			public Executeable Exec { get; private set;}
 			public bool isRunning;
 			/// <summary>
 			/// Initializes a new instance of the <see cref="T:StrobeVM.Firmware.Kernel.Process"/> struct.
@@ -302,6 +316,7 @@ namespace StrobeVM.Firmware
 			{
 				isRunning = true;
 				Inst = e.CPU();
+				Exec = e;
 			}
 			/// <summary>
 			/// Step the specified step.

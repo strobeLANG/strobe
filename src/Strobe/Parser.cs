@@ -1,21 +1,65 @@
 ﻿using System.Collections.Generic;
 namespace Strobe
 {
+	/// <summary>
+	/// Parser.
+	/// </summary>
 	public class Parser
 	{
+		/// <summary>
+		/// The input.
+		/// </summary>
 		List<SToken> Input;
+
+		/// <summary>
+		/// The parse tree.
+		/// </summary>
 		ParseTree Tree;
+
+		/// <summary>
+		/// The result.
+		/// </summary>
 		Result Res;
+
+		/// <summary>
+		/// The current instruction.
+		/// </summary>
 		Instruction Instruction_current;
+
+		/// <summary>
+		/// The current namespace.
+		/// </summary>
 		Namespace Namespace_current;
+
+		/// <summary>
+		/// The current function.
+		/// </summary>
 		Function Function_current;
+
+		/// <summary>
+		/// The current location.
+		/// </summary>
 		int Current;
+
+		/// <summary>
+		/// The current stoken.
+		/// </summary>
 		SToken Now;
 
-		// Data
+		/// <summary>
+		/// The pre processor commands.
+		/// </summary>
 		List<string> PreProcessor = new List<string>();
+
+		/// <summary>
+		/// The namespaces.
+		/// </summary>
 		List<Namespace> Namespaces = new List<Namespace>();
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Strobe.Parser"/> class.
+		/// </summary>
+		/// <param name="input">Input.</param>
 		public Parser(List<SToken> input)
 		{
 			Current = 0;
@@ -26,8 +70,34 @@ namespace Strobe
 			Parse();
 		}
 
-		bool inNamespace, inFunction, inNamespaceBlock, inFunctionBlock, needArgs;
+		/// <summary>
+		/// Is it in a namespace?
+		/// </summary>
+		bool inNamespace,
 
+		/// <summary>
+		/// Is it in a function?
+		/// </summary>
+		inFunction,
+
+		/// <summary>
+		/// Is it in a namespace block.
+		/// </summary>
+		inNamespaceBlock,
+
+		/// <summary>
+		/// Is it in a function block.
+		/// </summary>
+		inFunctionBlock,
+
+		/// <summary>
+		/// Does it need arguments?
+		/// </summary>
+		needArgs;
+
+		/// <summary>
+		/// Clean this instance.
+		/// </summary>
 		void Clean()
 		{
 			inFunctionBlock = false;
@@ -36,6 +106,10 @@ namespace Strobe
 			inFunction = false;
 			needArgs = false;
 		}
+
+		/// <summary>
+		/// Parse this instance.
+		/// </summary>
 		void Parse()
 		{
 			while (Current < Input.Count) {
@@ -101,6 +175,10 @@ namespace Strobe
 			Tree.Namespaces = Namespaces;
 			Tree.Preprocessor = PreProcessor;
 		}
+
+		/// <summary>
+		/// Parse the instruction.
+		/// </summary>
 		bool Instruction()
 		{
 			if (Now.Type == STokenType.Arguments) {
@@ -179,7 +257,7 @@ namespace Strobe
 				string fNamespace = "";
 				string fFunction = "";
 
-				string[] tc = Tfunc.Value.Split ('.');
+				string[] tc = Tfunc.Value?.Split ('.');
 				fFunction = tc [tc.Length - 1];
 				for (int f = 0; f < tc.Length - 1; f++) {
 					fNamespace = tc[f] + ".";
@@ -227,6 +305,10 @@ namespace Strobe
 			return false;
 		}
 
+		/// <summary>
+		/// Checks the namespace.
+		/// </summary>
+		/// <returns><c>true</c>, if namespace was checked, <c>false</c> otherwise.</returns>
 		bool CheckNamespace()
 		{
 			if (Now.Type == STokenType.Namespace) {
@@ -242,6 +324,11 @@ namespace Strobe
 			return false;
 		}
 
+		/// <summary>
+		/// Parses the arguments.
+		/// </summary>
+		/// <returns>The arguments.</returns>
+		/// <param name="args">Tokens.</param>
 		Args parseArguments(SToken args)
 		{
 			Args n = new Args {
@@ -272,6 +359,10 @@ namespace Strobe
 			return n;
 		}
 
+		/// <summary>
+		/// Checks the function.
+		/// </summary>
+		/// <returns><c>true</c>, if function was checked, <c>false</c> otherwise.</returns>
 		bool CheckFunction()
 		{
 			if (Now.Type == STokenType.Function) {
@@ -291,22 +382,26 @@ namespace Strobe
 			return false;
 		}
 
+
+		/// <summary>
+		/// Get the results.
+		/// </summary>
 		public ParserResult get()
 		{
 			//foreach (Namespace x in Tree.Namespaces) {
-				//System.Console.WriteLine ("Namespace: {0}",x.Name);
-				//foreach (Function y in x.Functions)
-				//{
-				//	System.Console.WriteLine ("+Function: {0}",y.Name);
-				//	foreach (Instruction z in y.Instructions) {
-				//		System.Console.WriteLine ("++Instruction: {0} ", z.Func.Namespace+"."+z.Func.Function);
-				//		System.Console.WriteLine ("+++Variable: {0}", z.Var.Name);
-				//		System.Console.WriteLine ("+++Operator: {0}", z.Op.Type);
-				//		foreach (Variable v in z.Func.Arguments.Arguments) {
-				//			System.Console.WriteLine ("++++Argument: {0}", v.Name);
-				//		}
-				//	}
-				//}
+			//	System.Console.WriteLine ("Namespace: {0}",x.Name);
+			//	foreach (Function y in x.Functions)
+			//	{
+			//		System.Console.WriteLine ("+Function: {0}",y.Name);
+			//		foreach (Instruction z in y.Instructions) {
+			//			System.Console.WriteLine ("++Instruction: {0} ", z.Func.Namespace+"."+z.Func.Function);
+			//			System.Console.WriteLine ("+++Variable: {0}", z.Var.Name);
+			//			System.Console.WriteLine ("+++Operator: {0}", z.Op.Type);
+			//			foreach (Variable v in z.Func.Arguments.Arguments) {
+			//				System.Console.WriteLine ("++++Argument: {0}", v.Name);
+			//			}
+			//		}
+			//	}
 			//}
 			return new ParserResult
 			{

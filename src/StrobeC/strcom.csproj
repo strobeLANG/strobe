@@ -18,7 +18,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
-    <Commandlineparameters>Test.str</Commandlineparameters>
+    <Commandlineparameters>test.str</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -39,19 +39,20 @@
       <Project>{E3DDF33B-DF11-4DD6-B11F-E920E5841B23}</Project>
       <Name>Strobe</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StrobeVM\strvmc\strvmc.csproj">
+      <Project>{5830E9E9-F5F8-45A1-92E3-38081654D8E2}</Project>
+      <Name>strvmc</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="lib\32\string.str">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="lib\64\string.str">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="lib\usys.str">
+    <None Include="lib\bioslib.str">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="README.md" />
     <None Include="lib\README.md" />
+    <None Include="test.str">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />

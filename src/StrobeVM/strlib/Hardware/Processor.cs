@@ -242,9 +242,10 @@ namespace StrobeVM.Hardware
 			{
 				two.RemoveAt(two.Count - 1);
 			}
+			int x = BitConverter.ToInt32 (one.ToArray (), 0);
+			int y = BitConverter.ToInt32 (two.ToArray (), 0);
 			return new int[] {
-				BitConverter.ToInt32(one.ToArray(),0),
-				BitConverter.ToInt32(two.ToArray(),0)
+				x,y
 			};
 		}
 	}

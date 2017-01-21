@@ -102,8 +102,8 @@ namespace Strobe
 				};
 			}
 
-			// Do the rest of the work
-			codegen = new CodeGenerator(parser.Tree).get();
+			// Compile
+				codegen = new CodeGenerator(parser.Tree).get();
 
 			// Warnings
 			foreach (Info e in codegen.Warnings)

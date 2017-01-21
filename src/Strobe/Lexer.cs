@@ -1,19 +1,35 @@
 ﻿using System.Collections.Generic;
 namespace Strobe
 {
-	// The Lexer Class
+	/// <summary>
+	/// Lexer.
+	/// </summary>
 	public class Lexer
 	{
-		// The lexer errors
+		/// <summary>
+		/// The result.
+		/// </summary>
 		Result Res;
-		// The current location
+
+		/// <summary>
+		/// The current location.
+		/// </summary>
 		int Current;
-		// The current tokens
+
+		/// <summary>
+		/// The tokens.
+		/// </summary>
 		List<Token> Tokens;
-		// The input
+
+		/// <summary>
+		/// The input.
+		/// </summary>
 		string Input;
 
-		// Define the lexer and call the analyze
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Strobe.Lexer"/> class.
+		/// </summary>
+		/// <param name="input">Input.</param>
 		public Lexer(string input)
 		{
 			// Create a new empty list of errors
@@ -28,7 +44,9 @@ namespace Strobe
 			Analyze();
 		}
 
-		// The Lexer
+		/// <summary>
+		/// Analyze this instance.
+		/// </summary>
 		void Analyze()
 		{
 			// Read while the current location is less than the lenght of the file
@@ -73,14 +91,13 @@ namespace Strobe
 					// Put the stuff in num
 					string num = "";
 					// While it is a number add it to num
-					while (isNumber(Now) || isOperator(Now))
+					while (isNumber(Now) || isNumOp(Now))
 					{
 						num += Now;
 						Now = Input[++Current];
 					}
 					// Add the token and move on
 					Tokens.Add(new Token { Value = num, Type = TokenType.Number, Location = Current });
-					Current++;
 					continue;
 				}
 				// Strings
@@ -93,6 +110,40 @@ namespace Strobe
 					// Wait for a " and add everything else to the string
 					while (!isString(Now))
 					{
+						// Escape character
+						if (Now == '\\')
+						{
+							Now = Input[++Current];
+							switch (Now)
+							{
+								case 'n':
+									str += '\n';
+									break;
+								case 'r':
+									str += '\r';
+									break;
+								case 't':
+									str += '\t';
+									break;
+								case 'b':
+									str += '\b';
+									break;
+								case 'f':
+									str += '\f';
+									break;
+								case 'v':
+									str += '\v';
+									break;
+								case '0':
+									str += (char)0;
+									break;
+								default:
+									str += Now;
+									break;
+							}
+							Now = Input[++Current];
+							continue;
+						}
 						str += Now;
 						Now = Input[++Current];
 					}
@@ -199,7 +250,23 @@ namespace Strobe
 			}
 		}
 
-		// The Operators
+		/// <summary>
+		/// Is the character a number operator?
+		/// </summary>
+		/// <returns><c>true</c>, if it's a number operator, <c>false</c> otherwise.</returns>
+		/// <param name="Char">Character.</param>
+		bool isNumOp(char Char)
+		{
+			return Char == '.' || Char == 'x' || Char == '+'
+				|| Char == '-' || Char == '*' || Char == '/'
+				|| Char == '%';
+		}
+
+		/// <summary>
+		/// Checks if the char is an operator.
+		/// </summary>
+		/// <returns><c>true</c>, if character is an operator, <c>false</c> otherwise.</returns>
+		/// <param name="Char">Character.</param>
 		bool isOperator(char Char)
 		{
 			return Char == '=' || Char == '!' || Char == '<' 
@@ -208,17 +275,32 @@ namespace Strobe
 				|| Char == '|' || Char == '&' || Char == '~'
 				|| Char == ',' || Char == ':' || Char == '.';
 		}
-		// The Breaks
+
+		/// <summary>
+		/// Checks if the caracter is a break.
+		/// </summary>
+		/// <returns><c>true</c>, if the character is a break, <c>false</c> otherwise.</returns>
+		/// <param name="Char">Character.</param>
 		bool isBreak(char Char)
 		{
 			return Char == ';';
 		}
-		// The Parenthesis
+
+		/// <summary>
+		/// Checks if the character is a parenthesis.
+		/// </summary>
+		/// <returns><c>true</c>, if character is parenthesis, <c>false</c> otherwise.</returns>
+		/// <param name="Char">Character.</param>
 		bool isParenthesis(char Char)
 		{
 			return Char == '[' || Char == ']' || Char == '(' || Char == ')' || Char == '{' || Char == '}';
 		}
-		// The Numbers
+
+		/// <summary>
+		/// Checks if the character is a number.
+		/// </summary>
+		/// <returns><c>true</c>, if character is a number, <c>false</c> otherwise.</returns>
+		/// <param name="Char">Character.</param>
 		bool isNumber(char Char)
 		{
 			return Char == '0' || Char == '1' || Char == '2'
@@ -226,22 +308,40 @@ namespace Strobe
 				|| Char == '6' || Char == '7' || Char == '8'
 				|| Char == '9';
 		}
-		// The Strings
+
+		/// <summary>
+		/// Checks if the character is a string.
+		/// </summary>
+		/// <returns><c>true</c>, if character is string, <c>false</c> otherwise.</returns>
+		/// <param name="Char">Character.</param>
 		bool isString(char Char)
 		{
 			return Char == '"' || Char == '\'';
 		}
-		// The Variables
+
+		/// <summary>
+		/// Checks if character is a variable.
+		/// </summary>
+		/// <returns><c>true</c>, if character is a variable, <c>false</c> otherwise.</returns>
+		/// <param name="Char">Character.</param>
 		bool isVariable(char Char)
 		{
 			return Char == '$' || Char == '@';
 		}
-		// The Identifiers
+
+		/// <summary>
+		/// Checks if the character is an identifier.
+		/// </summary>
+		/// <returns><c>true</c>, if character is an identifier, <c>false</c> otherwise.</returns>
+		/// <param name="Char">Char.</param>
 		bool isIdentifier(char Char)
 		{
 			return char.IsLetter(Char) || Char == '_';
 		}
-		// Return the result with all of the errors
+
+		/// <summary>
+		/// Get the result.
+		/// </summary>
 		public LexerResult get()
 		{
 			//foreach (Token t in Tokens)

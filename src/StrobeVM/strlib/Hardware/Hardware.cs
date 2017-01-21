@@ -1,5 +1,4 @@
 ﻿using StrobeVM.Firmware;
-using System.Collections.Generic;
 namespace StrobeVM.Hardware
 {
 	/// <summary>

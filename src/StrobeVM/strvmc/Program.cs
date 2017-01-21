@@ -8,7 +8,7 @@ namespace strvmc
 	/// <summary>
 	/// Strobe VMC.
 	/// </summary>
-	class StrobeVMC
+	public class StrobeVMC
 	{
 		/// <summary>
 		/// The entry point of the program, where the program control starts and ends.
@@ -16,29 +16,59 @@ namespace strvmc
 		/// <param name="param">The command-line arguments.</param>
 		public static void Main(string[] param)
 		{
-			// The kernel has 1024 bytes of memory, change this if you want to.
-			Kernel kernel = new Kernel(1024);
+			// The kernel has 1MB memory, change this if you want to.
+			Kernel kernel = new Kernel(1024 * 1024);
 			int i = 0;
 
-			// Uncomment this if you want to load files
-			//foreach (string s in param)
+			// Check for the console input
+			foreach (string s in param)
 			{
-				try
+				// Switch the string
+				switch (s.ToLower())
 				{
-					// Load the executeable using the DIF Format
-					//Executeable x = new DIFFormat().Load(File.ReadAllBytes(s));
-
-					// Uncomment the previous line if you want to load bytes from file.
-					// Load the "Hello World" test.
-					Executeable x = new DIFFormat().Load(Tests.KeyRead());
-
-					// Start the application in the kernel
-					kernel.Start(x);
-				}
-				catch
-				{
-					// Error while loading, increase the counter
-					i++;
+					// Save the loaded bytes to a DIF file
+				case "--save":
+					Executeable[] Execs = kernel.Save ();
+					int n=0;
+					foreach (Executeable e in Execs) {
+						File.WriteAllBytes("bin" + n + ".dif",new DIFFormat().GetBytes(e));
+					}
+					break;
+					// Kernel 512MB memory
+				case "--512m":
+					kernel = new Kernel(1024 * 1024 * 512);
+					break;
+					// Kernel 32MB memory
+				case "--32m":
+					kernel = new Kernel(1024 * 1024 * 32);
+					break;
+					// Kernel 1MB memory
+				case "--1m":
+					kernel = new Kernel(1024 * 1024);
+					break;
+					// Kernel 1GB memory
+				case "--1g":
+					kernel = new Kernel(1024 * 1024 * 1024);
+					break;
+					// Bios setup
+				case "--bios":
+					kernel.Start(new DIFFormat().Load(BIOS.Setup()));
+					break;
+					// Load File
+					default:
+						try
+						{
+							// Load the executeable using the DIF Format
+							Executeable x = new DIFFormat().Load(File.ReadAllBytes(s));
+							// Start the application in the kernel
+							kernel.Start(x);
+						}
+						catch
+						{
+							// Error while loading, increase the counter
+							i++;
+						}
+					break;
 				}
 			}
 

@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System;
 using Strobe;
+using strvmc;
+
 namespace StrobeC
 {
 	class MainStrobeC
@@ -13,13 +15,26 @@ namespace StrobeC
 			if (args.Length > 0)
 			{
 				string name = args[0];
+				string save = args[0] + ".dif";
+				for (int i = 1; i < args.Length; i++)
+				{
+					if (args[i].StartsWith("--out:"))
+					{
+						save = args[i].TrimStart("--out:".ToCharArray());
+					}
+				}
 				if (!File.Exists(name))
 				{
 					Console.WriteLine("Error 0: \"File does not exist\" at 0");
 				}
 				else {
+					CompilerResult result = new CompilerResult ();
 					string input = File.ReadAllText(name);
-					CompilerResult result = new Compiler(input).compile();
+					try {
+					result = new Compiler(input).compile();
+					} catch(Exception e) {
+						Console.WriteLine ("Error n: {0}",e.Message);
+					}
 					foreach (Error e in result.Errors)
 					{
 						Console.ForegroundColor = ConsoleColor.Red;
@@ -36,15 +51,19 @@ namespace StrobeC
 					{
 						try
 						{
-							File.WriteAllBytes(name + ".asm", result.Bytes);
-							Console.WriteLine();
+							File.WriteAllBytes(save, result.Bytes);
 							Console.ForegroundColor = ConsoleColor.Green;
 							Console.WriteLine("Compile successfully completed!");
+							Console.ForegroundColor = ConsoleColor.DarkGray;
+							Console.WriteLine("VM Runtime [1M]:\n");
 							Console.ResetColor();
+							StrobeVMC.Main(new string[]{"--1m",save});
+
 						}
 						catch (Exception)
 						{
 							Console.WriteLine("Error 0: \"Couldn't write to file\" at 0");
+							return;
 						}
 					}
 				}

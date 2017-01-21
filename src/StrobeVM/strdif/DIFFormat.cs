@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace StrobeVM.DIF
 {
 	/*
@@ -17,6 +18,26 @@ namespace StrobeVM.DIF
 	/// </summary>
 	public class DIFFormat : Format
 	{
+		/// <summary>
+		/// Gets the bytes.
+		/// </summary>
+		/// <returns>The bytes.</returns>
+		/// <param name="Input">Input.</param>
+		public override byte[] GetBytes(Executeable Input)
+		{
+			List<byte> bytes = new List<byte> ();
+			Instruction[] inst = Input.CPU ();
+			foreach(Instruction i in inst)
+			{
+				bytes.Add (0);
+				bytes.Add (ByteFromOpType(i.Op));
+				foreach (byte p in i.Param)
+					bytes.Add (p);
+				bytes.Add (255);
+			}
+			return bytes.ToArray ();
+		}
+
 		/// <summary>
 		/// Load the specified Input.
 		/// </summary>
@@ -52,6 +73,48 @@ namespace StrobeVM.DIF
 			}
 			return Return;
 		}
+
+		/// <summary>
+		/// Turns the operator type into byte.
+		/// </summary>
+		/// <returns>The byte.</returns>
+		/// <param name="OpType">OpType.</param>
+		public byte ByteFromOpType(Instruction.OpType OpType)
+		{
+			switch (OpType)
+			{
+			case Instruction.OpType.Add:
+				return 0;
+			case Instruction.OpType.Subtract:
+				return 1;
+			case Instruction.OpType.Divide:
+				return 2;
+			case Instruction.OpType.Mutiply:
+				return 3;
+			case Instruction.OpType.Allocate:
+				return 4;
+			case Instruction.OpType.Assign:
+				return 5;
+			case Instruction.OpType.Interrupt:
+				return 6;
+			case Instruction.OpType.Compare:
+				return 7;
+			case Instruction.OpType.Move:
+				return 8;
+			case Instruction.OpType.Addr:
+				return 9;
+			case Instruction.OpType.Label:
+				return 10;
+			case Instruction.OpType.Goto:
+				return 11;
+			case Instruction.OpType.Clear:
+				return 12;
+			default:
+				throw new Exception("Incorrect OpType: " + OpType);
+			}
+		}
+
+
 		/// <summary>
 		/// Turn the Operator Byte to Operator Type.
 		/// </summary>

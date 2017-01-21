@@ -39,7 +39,7 @@
     <Compile Include="Hardware\Hardware.cs" />
     <Compile Include="Firmware\BIOS.cs" />
     <Compile Include="Firmware\Kernel.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Firmware\Setup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Hardware\" />

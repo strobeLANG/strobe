@@ -9,6 +9,13 @@ namespace StrobeVM.Firmware
 	/// </summary>
 	public class BIOS
 	{
+		/// <summary>
+		/// Return the code for BIOS Setup.
+		/// </summary>
+		public static byte[] Setup()
+		{
+			return Firmware.Setup.GetSetup(); // Return the setup
+		}
 
 		/// <summary>
 		/// The buffer.

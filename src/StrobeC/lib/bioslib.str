@@ -1,0 +1,62 @@
+namespace System
+{
+	function Exit($x1)
+	{
+		int(0);
+	}
+	function Write($x1)
+	{
+		int(1);
+		int(2);
+	}
+	function Read()
+	{
+		int(3);
+		return $x0;
+	}
+	function ReadLine()
+	{
+		int(4);
+		return $x0;
+	}
+	function ReadKey()
+	{
+		int(5);
+		return $x0;
+	}
+	function ReadFile($x1)
+	{
+		int(6);
+		return $x0;
+	}
+	function WriteFile($x1, $x2)
+	{
+		int(7);
+	}
+	function AppendFile($x1, $x2)
+	{
+		int(8);
+	}
+	function CreateFolder($x1)
+	{
+		int(9);
+	}
+	function FileExsists($x1)
+	{
+		int(10);
+		return $x0;
+	}
+	function FolderExsists($x1)
+	{
+		int(11);
+		return $x0;
+	}
+	function DeleteFile($x1)
+	{
+		int(12);
+	}
+	function DeleteFolder($x1)
+	{
+		int(13);
+	}
+}

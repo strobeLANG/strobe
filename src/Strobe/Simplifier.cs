@@ -1,16 +1,35 @@
 ﻿using System.Collections.Generic;
 namespace Strobe
 {
-	// The Simplifier Class
+	/// <summary>
+	/// Simplifier.
+	/// </summary>
 	public class Simplifier
 	{
-		// The Arrays
+		/// <summary>
+		/// The result.
+		/// </summary>
 		Result Res;
+
+		/// <summary>
+		/// The input.
+		/// </summary>
 		List<Token> Input;
+
+		/// <summary>
+		/// The STokens.
+		/// </summary>
 		List<SToken> STokens;
 
-		// Current location
+		/// <summary>
+		/// The current location.
+		/// </summary>
 		int Current;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Strobe.Simplifier"/> class.
+		/// </summary>
+		/// <param name="tokens">Tokens.</param>
 		public Simplifier(List<Token> tokens)
 		{
 			Current = 0;
@@ -19,6 +38,10 @@ namespace Strobe
 			Res = new Result();
 			Simplify();
 		}
+
+		/// <summary>
+		/// Simplify this instance.
+		/// </summary>
 		void Simplify()
 		{
 			while (Current < Input.Count)
@@ -134,17 +157,20 @@ namespace Strobe
 				break;
 			}
 		}
-		// Give the result
+
+		/// <summary>
+		/// Get the result.
+		/// </summary>
 		public SimplifierResult get()
 		{
-			//foreach (SToken s in STokens) {
-			//	System.Console.WriteLine ("[{0}:{1}]{2}",s.Location,s.Type,s.Value);
-			//	if (s.Instruction?.Count > 0) {
-			//		foreach (Token i in s.Instruction) {
-			//			System.Console.WriteLine ("+[{0}:{1}]{2}", i.Location,i.Type,i.Value);
-			//		}
-			//	}
-			//}
+		//	foreach (SToken s in STokens) {
+		//		System.Console.WriteLine ("[{0}:{1}]{2}",s.Location,s.Type,s.Value);
+		//		if (s.Instruction?.Count > 0) {
+		//			foreach (Token i in s.Instruction) {
+		//				System.Console.WriteLine ("+[{0}:{1}]{2}", i.Location,i.Type,i.Value);
+		//			}
+		//		}
+		//	}
 			return new SimplifierResult
 			{
 				STokens = STokens,
