@@ -24,8 +24,8 @@ The syntax is influenced by the following programming languages:
  - PHP - for the variables and functions;
 
 ### Currently Working On:
-#### VM Functions and Loops
-#### DIF Executeables
+#### Functions and Loops
+#### Math Operations
 #### Documentation
 
 ###Do you want to support us?
