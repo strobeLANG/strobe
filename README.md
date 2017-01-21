@@ -3,13 +3,13 @@ The Strobe Compiler compiles Strobe code into DIF executeable that will be able 
 
 If you find some report them at [Issues](//github.com/mihail-mojsoski/Strobe/issues), so we can fix them.
 
-If you want to see how will the Strobe syntax look like, here it is:
-
 ```
 #include <bioslib.str>
 
-namespace Name {
-	function Main() {
+namespace Name
+{
+	function Main()
+	{
 		System.Write("Hello World\n");
 		System.Exit(0);
 	}
