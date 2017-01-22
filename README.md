@@ -23,13 +23,14 @@ The syntax is influenced by the following programming languages:
  - C# - for the namespaces and library names;
  - PHP - for the variables and functions;
 
+## How do i get started?
+Download the debugger and try it out,
+![Debugger](http://i.imgur.com/PlyZLkr.png)
+
 ### Currently Working On:
 #### Functions and Loops
 #### Math Operations
-#### Documentation
+#### Stability & Bug fixes
 
 ###Do you want to support us?
 #### Contribute!
-#### Make a library!
-#### Find Bugs!
-#### Give us ideas!
