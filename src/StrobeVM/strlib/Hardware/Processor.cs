@@ -39,7 +39,6 @@ namespace StrobeVM.Hardware
 				case Instruction.OpType.Addr:
 				case Instruction.OpType.Allocate:
 					hardware.Error("Kernel", 3);
-					hardware.Halt(1);
 					return null;
 				case Instruction.OpType.Compare:
 					return Comp(i.Param);
@@ -55,7 +54,6 @@ namespace StrobeVM.Hardware
 					return Div(i.Param);
 				default:
 					hardware.Error("CPU",0);
-					hardware.Halt(1);
 					return null;
 			}
 		}
@@ -68,7 +66,6 @@ namespace StrobeVM.Hardware
 			if (Param.Length != 1)
 			{
 				hardware.Error("CPU",1);
-				hardware.Halt(1);
 				return null;
 			}
 			return hardware.Interrupt(Param[0]);
@@ -83,7 +80,6 @@ namespace StrobeVM.Hardware
 			if (ar.Length < 3)
 			{
 				hardware.Error("CPU", 4);
-				hardware.Halt(1);
 				return null;
 			}
 			switch (ar[0])
@@ -98,7 +94,6 @@ namespace StrobeVM.Hardware
 					return Mor(ar.Skip(1).ToArray());
 				default:
 					hardware.Error("CPU", 5);
-					hardware.Halt(1);
 					return null;
 			}
 		}
@@ -109,7 +104,6 @@ namespace StrobeVM.Hardware
 		public void Error(int i)
 		{
 			hardware.Error("Kernel", i);
-			hardware.Halt(1);
 		}
 
 		/// <summary>
@@ -127,7 +121,7 @@ namespace StrobeVM.Hardware
 		/// </summary>
 		public void Halt()
 		{
-			hardware.Halt();
+			throw new Exception ("CPU Halt");
 		}
 
 		/// <summary>

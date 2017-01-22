@@ -30,10 +30,6 @@ namespace StrobeVM.Firmware
 		const byte ReadKey = 0x5;
 		static byte next = 0x1c;
 
-		static List<string> Settings = new List<string> {
-			"Halt the CPU"
-		};
-
 		/// <summary>
 		/// Writes the top.
 		/// </summary>
@@ -57,14 +53,8 @@ namespace StrobeVM.Firmware
 		{
 			List<byte> bytes = new List<byte> ();
 			bytes = addBytes (bytes, ConsoleWrite (
-				"# Choose a number to modify the setting:\n\n"
+				"# Unable to load custom setup, make sure that \"setup.dif\" exists!"
 			));
-			int i = 0;
-			foreach (string setting in Settings) {
-				bytes = addBytes (bytes, ConsoleWrite (
-					"[" + i + "] " + setting + "\n"
-				)); i++;
-			}
 			bytes = addBytes (bytes, ConsoleWrite ("\n=========================================================================\n"));
 			return bytes.ToArray();
 		}
@@ -106,7 +96,9 @@ namespace StrobeVM.Firmware
 			if(File.Exists("setup.dif"))
 			{
 				// Load the custom bios setup
-				setup = addBytes (setup,File.ReadAllBytes("setup.dif"));
+				setup = addBytes(setup,WriteTop());
+				setup = addBytes(setup,File.ReadAllBytes("setup.dif"));
+				setup = addBytes(setup,ProgramExit());
 			}
 			else 
 			{

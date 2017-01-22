@@ -75,8 +75,17 @@ namespace strvmc
 			// Step the kernel while it has running processes...
 			while (kernel.running.Count > 0)
 			{
-				kernel.Step();
+				try
+				{
+					kernel.Step();
+				}
+				catch (System.Exception e)
+				{
+					System.Console.WriteLine("VM ERROR: {0}",e.Message);
+					System.Environment.Exit(1);
+				}
 			}
+			System.Environment.Exit(0);
 		}
 	}
 }

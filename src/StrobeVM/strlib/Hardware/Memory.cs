@@ -9,7 +9,7 @@ namespace StrobeVM.Hardware
 		/// <summary>
 		/// The ram.
 		/// </summary>
-		byte[] Ram;
+		public byte[] Ram;
 		/// <summary>
 		/// The size.
 		/// </summary>

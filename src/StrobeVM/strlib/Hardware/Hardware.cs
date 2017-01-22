@@ -36,15 +36,7 @@ namespace StrobeVM.Hardware
 		{
 			bios.Write(from + " Error (" + i + ")\n");
 			bios.Display();
-		}
-
-		/// <summary>
-		/// Halt this instance.
-		/// </summary>
-		/// <param name="i">The error code.</param>
-		public void Halt(int i = 0)
-		{
-			bios.Exit(i);
+			throw new System.Exception(from + " Error (" + i + ")");
 		}
 
 		/// <summary>
@@ -56,7 +48,9 @@ namespace StrobeVM.Hardware
 			switch (Param)
 			{
 				case 0:
-					bios.Exit(kernel.AMem(1)[0]);
+					// Too brutal.
+					//bios.Exit(kernel.AMem(1)[0]);
+					kernel.Stop();
 					return new byte []{ };
 				case 1:
 					bios.Write(kernel.AMem(1));

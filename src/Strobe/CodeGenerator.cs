@@ -518,7 +518,9 @@ namespace Strobe
 		/// <param name="FuncName">Function name.</param>
 		void CollectGarbadge(string FuncName)
 		{
-			foreach (KeyValuePair<string,int> v in Vars)
+			// To avoid a bug.
+			var Varc = new Dictionary<string, int>(Vars);
+			foreach (KeyValuePair<string,int> v in Varc)
 			{
 				if (v.Key.StartsWith(FuncName))
 				{

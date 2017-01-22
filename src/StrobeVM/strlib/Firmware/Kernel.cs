@@ -56,6 +56,12 @@ namespace StrobeVM.Firmware
 		public Dictionary<int, Variable> Alloc { private set; get; }
 
 		/// <summary>
+		/// Gets the size.
+		/// </summary>
+		/// <value>The size.</value>
+		public int Size { private set; get; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="T:StrobeVM.Firmware.Kernel"/> class.
 		/// </summary>
 		/// <param name="RamSize">Ram size.</param>
@@ -63,6 +69,7 @@ namespace StrobeVM.Firmware
 		{
 			Labels = new Dictionary<int, int>();
 			loc = new List<int>();
+			Size = RamSize;
 			running = new List<Process>();
 			mem = new Memory(RamSize);
 			Alloc = new Dictionary<int, Variable>();
@@ -75,7 +82,7 @@ namespace StrobeVM.Firmware
 		/// <summary>
 		/// Initializes the registers.
 		/// </summary>
-		/// <param name="n">N.</param>
+		/// <param name="n">Number of registers.</param>
 		void InitRegs(int n)
 		{
 			for (int i = 0; i < n; i++)
@@ -84,6 +91,17 @@ namespace StrobeVM.Firmware
 			}
 		}
 
+		/// <summary>
+		/// Stop with the running.
+		/// </summary>
+		public void Stop()
+		{
+			running.Clear();
+		}
+
+		/// <summary>
+		/// Save the executable.
+		/// </summary>
 		public Executeable[] Save()
 		{
 			List<Executeable> exec = new List<Executeable> ();
@@ -170,7 +188,7 @@ namespace StrobeVM.Firmware
 				currentprocess++;
 				Execute(now);
 			}
-				else
+			else
 			{
 				currentprocess = 0;
 				return;

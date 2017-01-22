@@ -121,7 +121,7 @@ namespace StrobeVM.Firmware
 		}
 
 		/// <summary>
-		/// Exits the application with the specified error code.
+		/// Exits the VM with the specified error code.
 		/// </summary>
 		/// <param name="i">The error code.</param>
 		public void Exit(int i)
