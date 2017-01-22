@@ -3,7 +3,7 @@ The Strobe Compiler compiles Strobe code into DIF executeable that will be able 
 
 If you find some report them at [Issues](//github.com/mihail-mojsoski/Strobe/issues), so we can fix them.
 
-```
+```php
 #include <bioslib.str>
 
 namespace Name
