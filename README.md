@@ -10,7 +10,7 @@ namespace Name
 {
 	function Main()
 	{
-		System.Write("Hello World\n");
+		System.Write("Hello, World!\n");
 		System.Exit(0);
 	}
 }
