@@ -2,6 +2,33 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Reflection;
+
+/*
+  
+ 	Found this creature on Quora,
+	and it's called safety pig.
+
+	It helps you with this terrible code.
+	                         _
+	 _._ _..._ .-',     _.._(`))
+	'-. `     '  /-._.-'    ',/
+	   )         \            '.
+	  / _    _    |             \
+	 |  a    a    /              |
+	 \   .-.                     ;
+	  '-('' ).-'       ,'       ;
+	     '-;           |      .'
+	        \           \    /
+	        | 7  .__  _.-\   \
+	        | |  |  ``/  /`  /
+	       /,_|  |   /,_/   /
+	          /,_/      '`-'
+
+  I hope it works, because this code is messy.
+  Edit: It worked, found the bug and fixed it!
+
+ */
 
 namespace Strobe
 {
@@ -10,6 +37,12 @@ namespace Strobe
 	/// </summary>
 	public class CodeGenerator
 	{
+		/// <summary>
+		/// The lib folder.
+		/// </summary>
+		static string libf = Path.GetDirectoryName(
+			Assembly.GetExecutingAssembly().Location) + "/lib/";
+		
 		/// <summary>
 		/// The Result
 		/// </summary>
@@ -46,8 +79,10 @@ namespace Strobe
 		/// <param name="Input">Input.</param>
 		public CodeGenerator (ParseTree Input)
 		{
+			// We use 0x2c because of safety.
 			CurrentVar = 0x2c;
 			this.Input = Input;
+			// Generate the code.
 			Generate();
 		}
 
@@ -56,15 +91,18 @@ namespace Strobe
 		/// </summary>
 		void Generate()
 		{
-			foreach (string s in Input.Preprocessor) {
+			// For include
+			foreach (string s in Input.Preprocessor)
 				Preprocess (s);
-			}
-			foreach (Namespace n in Input.Namespaces) {
-				foreach (Function f in n.Functions) {
+
+			// Actually import the namespaces & classes
+			foreach (Namespace n in Input.Namespaces)
+				foreach (Function f in n.Functions)
 					Functions.Add (n.Name + f.Name, f);
-				}
-			}
-			Generate (findMain(),null);
+
+			// Generate the code, starting with main
+			// TODO: Pass arguments instead of null.
+			Generate (findMain(),null,null);
 		}
 
 		/// <summary>
@@ -73,35 +111,55 @@ namespace Strobe
 		/// <param name="s">String.</param>
 		void Preprocess(string s)
 		{
+			// Hell..
+
+			// Include
 			if (s.StartsWith("include")) {
+				// Remove the "include" from the string
 				s = s.TrimStart("include".ToCharArray());
+				// Remove the spaces.
 				while(s.StartsWith(" "))
 					s = s.TrimStart(" ".ToCharArray());
+				// Include from /lib/
 				if (s.StartsWith ("<")) {
 					while (s.EndsWith (" "))
 						s = s.TrimEnd (" ".ToCharArray ());
+					// Remove < and >.
 					s = s.TrimEnd (">".ToCharArray ());
 					s = s.TrimStart ("<".ToCharArray ());
-					s = System.IO.Path.GetDirectoryName (
-						System.Reflection.Assembly.GetExecutingAssembly ().Location) + "/lib/" + s;
+
+					// Add the lib folder.
+					s = libf + s;
+
+					// Compile the file.
 					var x = new Parser (new Simplifier (new Lexer (File.ReadAllText (s))
 							.get ().Tokens).get ().STokens).get ().Tree;
+
+					// Add the namespaces
 					foreach (Namespace y in x.Namespaces) {
 						Input.Namespaces.Add (y);
 					}
+
+					// Peprocess
 					foreach (string g in x.Preprocessor) {
 						Preprocess (g);
 					}
+					// Load from current folder.
 				} else if (s.StartsWith("\"")) {
-					while (s.EndsWith (" "))
-						s = s.TrimEnd (" ".ToCharArray ());
+					// Remove "'s
 					s = s.TrimEnd ("\"".ToCharArray ());
 					s = s.TrimStart ("\"".ToCharArray ());
+
+					// Compile the file
 					var x = new Parser (new Simplifier (new Lexer (File.ReadAllText (s))
 						.get ().Tokens).get ().STokens).get ().Tree;
+
+					// Add the namespaces
 					foreach (Namespace y in x.Namespaces) {
 						Input.Namespaces.Add (y);
 					}
+
+					// Preprocess
 					foreach (string g in x.Preprocessor) {
 						Preprocess (g);
 					}
@@ -115,21 +173,37 @@ namespace Strobe
 		/// <param name="Bytes">Bytes.</param>
 		int AddVariable(byte[] Bytes)
 		{
+			// Get the current variable space and increase it by 1
 			int current = ++CurrentVar;
+
+			// Start allocating
 			Output.Add(0x0);
 			Output.Add(0x4);
-			foreach(byte add in BitConverter.GetBytes(current))
+
+			// Variable ID
+			foreach (byte add in BitConverter.GetBytes(current))
 				Output.Add(add);
+
+			// Variable Size
 			Output.Add(0xfe);
-			Output.Add((byte)Bytes.Length);
+			foreach (byte add in BitConverter.GetBytes(Bytes.Length))
+				Output.Add(add);
+
+			// End allocating, and start assigning
 			Output.Add(0xff);
 			Output.Add(0x0);
 			Output.Add(0x5);
+
+			// Variable ID
 			foreach(byte add in BitConverter.GetBytes(current))
 				Output.Add(add);
+
+			// Add the contents
 			Output.Add(0xfe);
 			foreach(byte add in Bytes)
 				Output.Add(add);
+
+			// End assigning and return the current variable
 			Output.Add(0xff);
 			return current;
 		}
@@ -140,9 +214,14 @@ namespace Strobe
 		/// <param name="x">The byte.</param>
 		void Interrupt(byte x)
 		{
+			//  Start Interrupt
 			Output.Add (0x0);
 			Output.Add (0x6);
+
+			// Interrupt Byte
 			Output.Add (x);
+
+			// End Interrupt
 			Output.Add (0xff);
 		}
 
@@ -153,13 +232,20 @@ namespace Strobe
 		/// <param name="y">From.</param>
 		void Move(int x, int y)
 		{
+			// Start Move
 			Output.Add(0x0);
 			Output.Add(0x9);
+
+			// Move to
 			foreach (byte add in BitConverter.GetBytes(x))
 				Output.Add (add);
+
+			// Move from
 			Output.Add(0xfe);
 			foreach (byte add in BitConverter.GetBytes(y))
 				Output.Add (add);
+
+			// End Move
 			Output.Add(0xff);
 		}
 
@@ -167,145 +253,278 @@ namespace Strobe
 		/// Generate from the specified function.
 		/// </summary>
 		/// <param name="func">Function.</param>
-		void Generate(Function func, Args args)
+		void Generate(Function func, Args args, Function old)
 		{
+			/* 
+			 * Welome to hell.
+			 * Feel free to touch, but you rollback at the end.
+			 */
+			// Check for valid arguments
 			if (func.Arguments.Arguments.Count != args?.Arguments.Count)
-			if (args != null)
-				throw new Exception ("Incorrect number of arguments");
+				// If it's not main, throw an exception
+				if (args != null)
+					throw new Exception ("Incorrect number of arguments");
+
+			// Pass the arguments
 			for (int i = 0; i < args?.Arguments.Count; i++) {
+				// If the arguments are constant, define them.
 				if (args.Arguments [i].isConst) {
 					byte[] x;
+
+					// Turn them into bytes, if string using ASCII, if number using BitConverter.
 					if (args.Arguments [i].isNum) {
 						x = BitConverter.GetBytes (int.Parse (args.Arguments [i].Name));
 					} else {
 						x = Encoding.ASCII.GetBytes (args.Arguments [i].Name);
 					}
+
+					// Register the variable.
 					int var = AddVariable (x);
+
+					// Check if to use direct (starting with x)
 					if (func.Arguments.Arguments [i].Name.ToLower ().StartsWith ("x")) {
+						// Move the contents to the address
 						Move (int.Parse (func.Arguments.Arguments [i].Name.ToLower ().TrimStart ('x')), var);
 					} else {
+						// Check if it is already defined, if not, define it.
 						if (!Vars.ContainsKey (func.Name + func.Arguments.Arguments [i].Name)) {
+							// Define it.
 							Vars.Add (func.Name + func.Arguments.Arguments [i].Name, var);
 						} else {
+							// Change the already defined variable.
 							Vars [func.Name + func.Arguments.Arguments [i].Name] = var;
 						}
 					}
+					// If the arguments are not constant, move them.
 				} else {
 					int var;
-					if (func.Arguments.Arguments [i].Name.ToLower ().StartsWith ("x"))
-						var = int.Parse (func.Arguments.Arguments [i].Name.ToLower ().TrimStart ('x'));
-					else
-						var = Vars[func.Name + func.Arguments.Arguments [i].Name];
 
+					// Check if it's direct, if it is, directly get the value
+					if (args.Arguments [i].Name.ToLower ().StartsWith ("x"))
+						var = int.Parse (args.Arguments [i].Name.ToLower ().TrimStart ('x'));
+					else
+						// If not, get the variable
+						var = Vars[old.Name + args.Arguments [i].Name];
+
+					// Check if should move to variable or address
 					if (func.Arguments.Arguments [i].Name.ToLower ().StartsWith ("x")) {
+						// Move the value directly
 						Move (int.Parse (func.Arguments.Arguments [i].Name.ToLower ().TrimStart ('x')), var);
 					} else {
+						// Define new variable
 						if (!Vars.ContainsKey (func.Name + func.Arguments.Arguments [i].Name)) {
 							Vars.Add (func.Name + func.Arguments.Arguments [i].Name, var);
 						} else {
+							// Change the address
 							Vars [func.Name + func.Arguments.Arguments [i].Name] = var;
 						}
 					}
 				}
 			}
+
+			// Parse the instructions
 			foreach (Instruction i in func.Instructions) {
 				switch (i.Func.Function) {
+					/*
+					 * Define new variable from constant
+					 */
 				case "new":
-					if (i.Func.Arguments.Arguments.Count == 1 && i.Func.Arguments.Arguments [0].isConst) {
-						byte[] x;
-						if (i.Func.Arguments.Arguments [0].isNum) {
-							x = BitConverter.GetBytes(int.Parse (i.Func.Arguments.Arguments [0].Name));
-						} else {
-							x  = Encoding.ASCII.GetBytes(i.Func.Arguments.Arguments [0].Name);
-						}
-						int var = AddVariable(x);
-						if (i.Op?.Type == "=") {
-							if (i.Var?.isConst == false) {
-								if (i.Var.Name.ToLower ().StartsWith ("x"))
-									Move (int.Parse (i.Var.Name.ToLower ().TrimStart ('x')), var);
-								else {
-									if (!Vars.ContainsKey (func.Name + i.Var.Name)) {
-										Vars.Add (func.Name + i.Var.Name, var);
-									} else {
-										Vars [func.Name + i.Var.Name] = var;
-									}
-								}
-							}
-						}
-					} else {
-						throw new Exception ("Incorrect amount of arguments in `new`.");
-					}
-					break;
-				case "get":
-					if (i.Func.Arguments.Arguments.Count == 1) {
-						int var;
-						if (i.Func.Arguments.Arguments [0].Name.ToLower ().StartsWith ("x"))
-							var = int.Parse (i.Var.Name.ToLower ().TrimStart ('x')); else
-						var = Vars[func.Name + i.Func.Arguments.Arguments [0].Name];
-						if (i.Op?.Type == "=") {
-							if (i.Var?.isConst == false) {
-								if (i.Var.Name.ToLower ().StartsWith ("x"))
-									Move (int.Parse (i.Var.Name.ToLower ().TrimStart ('x')), var);
-								else {
-									if (!Vars.ContainsKey (func.Name + i.Var.Name)) {
-										Vars.Add (func.Name + i.Var.Name, var);
-									} else {
-										Vars [func.Name + i.Var.Name] = var;
-									}
-								}
-							}
-						}
-					} else {
-						throw new Exception ("Incorrect amount of arguments in `get`.");
-					}
-					break;
-				case "int":
-					if (i.Func.Arguments.Arguments.Count == 1) {
-						if (i.Func.Arguments.Arguments [0].isNum) {
-							int x = int.Parse (i.Func.Arguments.Arguments [0].Name);
-							if (x > 255) {
-								throw new Exception ("Interrupt can only accept compile-time constant bytes as arguments.");
+						// Check if it has valid arguments
+						if (i.Func.Arguments.Arguments.Count == 1 && i.Func.Arguments.Arguments [0].isConst) {
+							byte[] x;
+							// Check if it's a number or string
+							if (i.Func.Arguments.Arguments [0].isNum) {
+								// Number
+								x = BitConverter.GetBytes(int.Parse (i.Func.Arguments.Arguments [0].Name));
 							} else {
-								Interrupt((byte)x);
+								// String
+								x  = Encoding.ASCII.GetBytes(i.Func.Arguments.Arguments [0].Name);
 							}
-						} else {
-							throw new Exception ("Interrupt can only accept compile-time constant numbers as arguments.");
-						}
-					} else {
-						throw new Exception ("Incorrect amount of arguments in `interrupt`.");
-					}
+							// Define the variable
+							int var = AddVariable(x);
+
+							// Assign the value to the variable
+							if (i.Op?.Type == "=") {
+								// Check if it's valid
+								if (i.Var?.isConst == false) {
+									// Is it direct? (starts with x)
+									if (i.Var.Name.ToLower ().StartsWith ("x"))
+										// Directly move
+										Move (int.Parse (i.Var.Name.ToLower ().TrimStart ('x')), var);
+									else {
+										// Define if not already defined
+										if (!Vars.ContainsKey (func.Name + i.Var.Name)) {
+											Vars.Add (func.Name + i.Var.Name, var);
+										} else {
+											// Change if already defined
+											Vars [func.Name + i.Var.Name] = var;
+										}
+									}
+								}
+							}
+							// Throw an exception
+						} else throw new Exception ("Invalid arguments in `new`.");
 					break;
-				default:
-					Function f = find (i.Func.Namespace, i.Func.Function);
-					f.Name = i.Func.Namespace + "//" + i.Func.Function;
-					Generate (f,i.Func.Arguments);
-					if (f.Ret?.Type == TokenType.Variable) {
-						int var;
-						if (f.Ret.Value.ToLower ().StartsWith ("x"))
-							var = int.Parse (f.Ret.Value.ToLower ().TrimStart ('x'));
-						else
-							var = Vars[f.Name + f.Ret.Value];
-						
-						if (i.Op?.Type == "=") {
-							if (i.Var?.isConst == false) {
-								if (i.Var.Name.ToLower ().StartsWith ("x"))
-									Move (int.Parse (i.Var.Name.ToLower ().TrimStart ('x')), var);
-								else {
-									if (!Vars.ContainsKey (func.Name + i.Var.Name)) {
-										Vars.Add (func.Name + i.Var.Name, var);
-									} else {
-										Vars [func.Name + i.Var.Name] = var;
+						/*
+						 * Get Value
+						 */
+				case "get":
+						// Check for the arguments count
+						if (i.Func.Arguments.Arguments.Count == 1) {
+							int var;
+
+							// If it starts with "x", directly load the value
+							if (i.Func.Arguments.Arguments [0].Name.ToLower ().StartsWith ("x"))
+
+								//Set the var to a parsed integer of the var name without "x"
+								var = int.Parse (i.Var.Name.ToLower ().TrimStart ('x')); 
+							else
+								// Set the var to the pre-defined value of the var name.
+								var = Vars[func.Name + i.Func.Arguments.Arguments [0].Name];
+
+							// Check if sould assign
+							if (i.Op?.Type == "=") {
+								// Check if the variable is valid
+								if (i.Var?.isConst == false) {
+
+									// If it starts with "x", directly put into the variable
+									if (i.Var.Name.ToLower ().StartsWith ("x"))
+										// Move.
+										Move (int.Parse (i.Var.Name.ToLower ().TrimStart ('x')), var);
+									else {
+										// If the variable isn't defined, define it.
+										if (!Vars.ContainsKey (func.Name + i.Var.Name)) {
+											Vars.Add (func.Name + i.Var.Name, var);
+										} else {
+											// Change the variable
+											Vars [func.Name + i.Var.Name] = var;
+										}
+									}
+								}
+							}
+						} else
+							// Throw the exception
+							throw new Exception ("Incorrect amount of arguments in `get`.");
+					break;
+						/*
+						 * Interrupt
+						 */
+				case "int":
+						// Check if the arguments are correct & interrupt
+						if (i.Func.Arguments.Arguments.Count == 1 && i.Func.Arguments.Arguments[0].isNum)
+						{
+							int x = int.Parse(i.Func.Arguments.Arguments[0].Name);
+							// Interrupt
+							Interrupt((byte)x);
+						} else
+							// Thow the exception
+							throw new Exception("Interrupt can only accept bytes as arguments.");
+					break;
+					/*
+					 * Execute Function
+					 */
+					default:
+						// Find the function
+						Function f = find (i.Func.Namespace, i.Func.Function);
+						// Set the function name to something unique to the namespace
+						f.Name = i.Func.Namespace + " " + i.Func.Function + " ";
+						// Generate the function, and return.
+						Generate (f,i.Func.Arguments,func);
+						// Return if it's a variable
+						if (f.Ret?.Type == TokenType.Variable)
+						{
+							int var;
+							// Check if should return address.
+							if (f.Ret.Value.ToLower().StartsWith("x"))
+								// Get direct address.
+								var = int.Parse(f.Ret.Value.ToLower().TrimStart('x'));
+							else
+								// Get variable.
+								var = Vars[f.Name + f.Ret.Value];
+							// Check if should assign
+							if (i.Op?.Type == "=")
+							{
+								if (i.Var?.isConst == false)
+								{
+									// Check if it's a direct address
+									if (i.Var.Name.ToLower().StartsWith("x"))
+										// Move the address
+										Move(int.Parse(i.Var.Name.ToLower().TrimStart('x')), var);
+									else {
+										// Define the variable if it's not already defined
+										if (!Vars.ContainsKey(func.Name + i.Var.Name))
+										{
+											// Define Variable
+											Vars.Add(func.Name + i.Var.Name, var);
+										}
+										else {
+											// Change Variable
+											Vars[func.Name + i.Var.Name] = var;
+										}
 									}
 								}
 							}
 						}
-					} else {
-						if (f.Ret?.Type == TokenType.Number
-							|| f.Ret?.Type == TokenType.Register
-							|| f.Ret.Type == TokenType.String)
-						throw new Exception ("Functions can only return variables!");
-					}
-					break;
+						else {
+							// Make sure that it's an invalid return and not a void
+							if (f.Ret?.Type == TokenType.Number
+								|| f.Ret?.Type == TokenType.Register
+								|| f.Ret.Type == TokenType.String)
+								throw new Exception("Functions can only return variables!");
+						}
+						// Collect the garbadge
+						CollectGarbadge(f.Name);
+						break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Clears the variable.
+		/// </summary>
+		/// <param name="Var">Variable.</param>
+		void ClearVar(int Var)
+		{
+			// Start Clear
+			Output.Add(0x0);
+			Output.Add(0xc);
+
+			// Variable (as Bytes)
+			foreach (byte add in BitConverter.GetBytes(Var))
+				Output.Add(add);
+
+			// End Clear
+			Output.Add(0xff);
+		}
+
+		/// <summary>
+		/// Frees the variable.
+		/// </summary>
+		/// <param name="Var">Variable.</param>
+		void FreeVar(int Var)
+		{
+			/*
+			 * Not implemented in kernel yet, but the idea is:
+			 * - Remove all traces of the variable;
+			 * - Free the space;
+			 * - Pull all the variables down to the empty space;
+			 * - Move the free address number down to the last variable;
+			 */
+		}
+
+		/// <summary>
+		/// Collects the garbadge.
+		/// </summary>
+		/// <param name="FuncName">Function name.</param>
+		void CollectGarbadge(string FuncName)
+		{
+			foreach (KeyValuePair<string,int> v in Vars)
+			{
+				if (v.Key.StartsWith(FuncName))
+				{
+					ClearVar(v.Value);
+					FreeVar(v.Value);
+					Vars.Remove(v.Key);
 				}
 			}
 		}
@@ -317,9 +536,11 @@ namespace Strobe
 		/// <param name="name">Function.</param>
 		Function find(string namesp, string name)
 		{
-			if (Functions.ContainsKey (namesp + name)) {
+			// Check if the function is loaded
+			if (Functions.ContainsKey (namesp + name))
 				return Functions [namesp + name];
-			} else
+
+			// Nope, throw an exception
 			throw new Exception ("Unable to find function `"+namesp+"."+name+"`");
 		}
 
@@ -329,10 +550,13 @@ namespace Strobe
 		/// <returns>The main.</returns>
 		Function findMain()
 		{
+			// Search for main
 			foreach (Namespace name in Input.Namespaces)
 				foreach (Function func in name.Functions)
 					if (func.Name.ToLower () == "main")
 						return func;
+
+			// No main, throw an exception
 			throw new Exception("No `Main` function was found!");
 		}
 
