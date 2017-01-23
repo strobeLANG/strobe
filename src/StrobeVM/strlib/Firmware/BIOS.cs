@@ -126,7 +126,7 @@ namespace StrobeVM.Firmware
 		/// <param name="i">The error code.</param>
 		public void Exit(int i)
 		{
-			Environment.Exit(i);
+			//Environment.Exit(i);
 		}
 
         /// <summary>
