@@ -1,0 +1,29 @@
+﻿namespace Math
+{
+	function Add($a, $b)
+	{
+		proc_Add($a,$b);
+		return $x0;
+	}
+	function Sub($a, $b)
+	{
+		proc_Sub($a,$b);
+		return $x0;
+	}
+	function Div($a,$b)
+	{
+		proc_Div($a,$b);
+		return $x0;
+	}
+	function Mul($a,$b)
+	{
+		proc_Mul($a,$b);
+		return $x0;
+	}
+	function Write($x1)
+	{
+		$x2 = new(1);
+		int(1);
+		int(2);
+	}
+}

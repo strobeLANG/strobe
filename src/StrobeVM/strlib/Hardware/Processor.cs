@@ -113,7 +113,9 @@ namespace StrobeVM.Hardware
 		byte[] Equ(byte[] ar)
 		{
 			int[] ret = TwoArgs(ar);
-			return BitConverter.GetBytes(ret[0] == ret[1]);
+            ret[0] = BitConverter.ToInt32(hardware.kernel.AMem(ret[0]), 0);
+            ret[1] = BitConverter.ToInt32(hardware.kernel.AMem(ret[1]), 0);
+            return BitConverter.GetBytes(ret[0] == ret[1]);
 		}
 
 		/// <summary>
@@ -131,7 +133,9 @@ namespace StrobeVM.Hardware
 		byte[] Neq(byte[] ar)
 		{
 			int[] ret = TwoArgs(ar);
-			return BitConverter.GetBytes(ret[0] != ret[1]);
+            ret[0] = BitConverter.ToInt32(hardware.kernel.AMem(ret[0]), 0);
+            ret[1] = BitConverter.ToInt32(hardware.kernel.AMem(ret[1]), 0);
+            return BitConverter.GetBytes(ret[0] != ret[1]);
 		}
 
 		/// <summary>
@@ -141,7 +145,9 @@ namespace StrobeVM.Hardware
 		byte[] Mor(byte[] ar)
 		{
 			int[] ret = TwoArgs(ar);
-			return BitConverter.GetBytes(ret[0] > ret[1]);
+            ret[0] = BitConverter.ToInt32(hardware.kernel.AMem(ret[0]), 0);
+            ret[1] = BitConverter.ToInt32(hardware.kernel.AMem(ret[1]), 0);
+            return BitConverter.GetBytes(ret[0] > ret[1]);
 		}
 
 		/// <summary>
@@ -151,7 +157,9 @@ namespace StrobeVM.Hardware
 		byte[] Lss(byte[] ar)
 		{
 			int[] ret = TwoArgs(ar);
-			return BitConverter.GetBytes(ret[0] < ret[1]);
+            ret[0] = BitConverter.ToInt32(hardware.kernel.AMem(ret[0]), 0);
+            ret[1] = BitConverter.ToInt32(hardware.kernel.AMem(ret[1]), 0);
+            return BitConverter.GetBytes(ret[0] < ret[1]);
 		}
 
 		/// <summary>
@@ -161,7 +169,9 @@ namespace StrobeVM.Hardware
 		byte[] Sub(byte[] ar)
 		{
 			int[] ret = TwoArgs(ar);
-			return BitConverter.GetBytes(ret[0] - ret[1]);
+            ret[0] = BitConverter.ToInt32(hardware.kernel.AMem(ret[0]), 0);
+            ret[1] = BitConverter.ToInt32(hardware.kernel.AMem(ret[1]), 0);
+            return BitConverter.GetBytes(ret[0] - ret[1]);
 		}
 
 		/// <summary>
@@ -171,7 +181,9 @@ namespace StrobeVM.Hardware
 		byte[] Mul(byte[] ar)
 		{
 			int[] ret = TwoArgs(ar);
-			return BitConverter.GetBytes(ret[0] * ret[1]);
+            ret[0] = BitConverter.ToInt32(hardware.kernel.AMem(ret[0]), 0);
+            ret[1] = BitConverter.ToInt32(hardware.kernel.AMem(ret[1]), 0);
+            return BitConverter.GetBytes(ret[0] * ret[1]);
 		}
 
 		/// <summary>
@@ -181,7 +193,9 @@ namespace StrobeVM.Hardware
 		byte[]  Div(byte[] ar)
 		{
 			int[] ret = TwoArgs(ar);
-			return BitConverter.GetBytes(ret[0] / ret[1]);
+            ret[0] = BitConverter.ToInt32(hardware.kernel.AMem(ret[0]), 0);
+            ret[1] = BitConverter.ToInt32(hardware.kernel.AMem(ret[1]), 0);
+            return BitConverter.GetBytes(ret[0] / ret[1]);
 		}
 
 		/// <summary>
@@ -191,7 +205,9 @@ namespace StrobeVM.Hardware
 		byte[] Add(byte[] ar)
 		{
 			int[] ret = TwoArgs(ar);
-			return BitConverter.GetBytes(ret[0] + ret[1]);
+            ret[0] = BitConverter.ToInt32(hardware.kernel.AMem(ret[0]), 0);
+            ret[1] = BitConverter.ToInt32(hardware.kernel.AMem(ret[1]), 0);
+            return BitConverter.GetBytes(ret[0] + ret[1]);
 		}
 
 		/// <summary>

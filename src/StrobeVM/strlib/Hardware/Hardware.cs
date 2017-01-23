@@ -9,12 +9,12 @@ namespace StrobeVM.Hardware
 		/// <summary>
 		/// The kernel.
 		/// </summary>
-		Kernel kernel;
+		public Kernel kernel { private set; get; }
 
 		/// <summary>
 		/// The bios.
 		/// </summary>
-		BIOS bios;
+		public BIOS bios { private set; get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:StrobeVM.Hardware.Hardware"/> class.
@@ -53,7 +53,7 @@ namespace StrobeVM.Hardware
 					kernel.Stop();
 					return new byte []{ };
 				case 1:
-					bios.Write(kernel.AMem(1));
+					bios.Write(kernel.AMem(1),kernel.AMem(2));
 					return new byte[]{ };
 				case 2:
 					bios.Display();

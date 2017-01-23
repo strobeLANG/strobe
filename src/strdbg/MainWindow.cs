@@ -49,6 +49,10 @@ public partial class MainWindow : Gtk.Window
 
 	void Update()
 	{
+        if (Debug.app == null)
+        {
+            return;
+        }
 		StringBuilder hex = new StringBuilder(Debug.app.Length * 2);
 		foreach (byte b in Debug.app)
 			hex.AppendFormat("{0:x2}\t", b);

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{B1B1AC38-C5A3-4948-ADE4-C51E40BBD60A}</ProjectGuid>
@@ -40,9 +40,6 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Mono.Posix" />
-    <Reference Include="libstetic">
-      <HintPath>..\..\..\..\..\app\lib\monodevelop\AddIns\MonoDevelop.GtkCore\libstetic.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -73,9 +70,9 @@
       <Project>{80AA0BF3-DB48-4596-899A-1FBF705004C7}</Project>
       <Name>strdif</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Strobe\Strobe.csproj">
+    <ProjectReference Include="..\Strobe\strobe.csproj">
       <Project>{E3DDF33B-DF11-4DD6-B11F-E920E5841B23}</Project>
-      <Name>Strobe</Name>
+      <Name>strobe</Name>
     </ProjectReference>
     <ProjectReference Include="..\StrobeVM\strvmc\strvmc.csproj">
       <Project>{5830E9E9-F5F8-45A1-92E3-38081654D8E2}</Project>

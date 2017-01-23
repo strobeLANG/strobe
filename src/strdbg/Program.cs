@@ -28,11 +28,14 @@ namespace strdbg
 			if (Input == initl)
 			{
 				Input = @"#include <bioslib.str>
+#include <math.str>
 namespace MyProgram
 {
+    /*
+     * The start of your application.
+     */
 	function Main()
 	{
-		// Have fun with this.
 		System.Write(""Hello World\n"");
 		System.Exit(0);
 	}

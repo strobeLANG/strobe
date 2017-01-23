@@ -60,7 +60,7 @@ namespace Strobe
 				{
 					string pp = "";
 					Now = Input[++Current];
-					while (Now != System.Environment.NewLine[0])
+					while (!(Now == '\r' || Now == '\n'))
 					{
 						pp += Now;
 						Now = Input[++Current];
@@ -177,7 +177,7 @@ namespace Strobe
 				{
 					Current++;
 					Now = Input[++Current];
-					while (Now != System.Environment.NewLine[0])
+					while (!(Now == '\r' || Now == '\n'))
 					{
 						Now = Input[++Current];
 					}

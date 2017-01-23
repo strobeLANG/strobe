@@ -191,6 +191,7 @@ namespace StrobeVM.Firmware
 			else
 			{
 				currentprocess = 0;
+                Step();
 				return;
 			}
 
@@ -289,15 +290,54 @@ namespace StrobeVM.Firmware
 		/// <param name="clear">Id.</param>
 		public void AMemClear(int clear)
 		{
-			if (Alloc.ContainsKey(clear))
-			{
-				int now = Alloc[clear].Address;
-				while (now < Alloc[clear].Address + Alloc[clear].Size)
-					mem.Set(now++, 0x0);
-			}
-			return;
-
+            if (Alloc.ContainsKey(clear))
+            {
+                // Replace the space with 0x0.
+                int now = Alloc[clear].Address;
+                while (now <= Alloc[clear].Address + Alloc[clear].Size)
+                    mem.Set(now++, 0x0);
+            }
 		}
+
+        /// <summary>
+        /// Remove from memory, and also move others.
+        /// </summary>
+        /// <param name="clear"></param>
+        public void AMemRemove(int clear)
+        {
+            if (Alloc.ContainsKey(clear))
+            {
+                // Save the values
+                int addr = Alloc[clear].Address;
+                int size = Alloc[clear].Size;
+
+                // Remove from the allocated database.
+                Alloc.Remove(clear);
+
+                // A list is needed
+                List<byte> newRam = new List<byte>(mem.Ram);
+
+                // Loop trough the allocated space and remove it
+                for (int i = addr; i < addr + size; i++)
+                {
+                    // Remove the space
+                    newRam.RemoveAt(i);
+                    // Add some free space at the end
+                    newRam.Add(0x0);
+                    // Move the free address down
+                    FreeAddr--;
+                }
+
+                // Move the addresses down
+                for (int i = 0; i < Alloc.Count; i++)
+                    if (Alloc[i].Address > addr)
+                        Alloc[i] = new Variable(Alloc[i].Address - Alloc[clear].Size, Alloc[i].Size);
+
+                // Change the array
+                mem.Ram = newRam.ToArray();
+            }
+        }
+        
 
 		/// <summary>
 		/// Variable.

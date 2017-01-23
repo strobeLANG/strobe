@@ -128,6 +128,11 @@ namespace StrobeVM.Firmware
 		{
 			Environment.Exit(i);
 		}
+
+        /// <summary>
+        /// Write one character to buffer.
+        /// </summary>
+        /// <param name="c">Character</param>
 		public void Write(char c)
 		{
 			buffer.Add(c);
@@ -166,9 +171,12 @@ namespace StrobeVM.Firmware
 		/// Write the specified byte array.
 		/// </summary>
 		/// <param name="ba">Byte Array.</param>
-		public void Write(byte[] ba)
+		public void Write(byte[] ba, byte[] c)
 		{
-			Write(Encoding.ASCII.GetString(ba));
+            if (c[0] == 1)
+                Write(((int)ba[0]).ToString());
+            else
+			    Write(Encoding.ASCII.GetString(ba));
 		}
 
 		/// <summary>

@@ -225,15 +225,146 @@ namespace Strobe
 			Output.Add (0xff);
 		}
 
-		/// <summary>
-		/// Move the specified addresses.
-		/// </summary>
-		/// <param name="x">To.</param>
-		/// <param name="y">From.</param>
-		void Move(int x, int y)
+        /// <summary>
+        /// Add two numbers.
+        /// Please... do not touch this method unless you know what you are doing.
+        /// </summary>
+        /// <param name="x">First Number</param>
+        /// <param name="y">Second Number</param>
+        void Add(int x, int y)
+        {
+            // Start Add
+            Output.Add(0x0);
+            Output.Add(0x0);
+            // First number
+            foreach (byte add in BitConverter.GetBytes(x))
+                Output.Add(add);
+
+            // Second number
+            Output.Add(0xfe);
+            foreach (byte add in BitConverter.GetBytes(y))
+                Output.Add(add);
+
+            // End Add
+            Output.Add(0xff);
+        }
+
+
+        /// <summary>
+        /// Subtract two numbers.
+        /// Please... do not touch this method unless you know what you are doing.
+        /// </summary>
+        /// <param name="x">First Number</param>
+        /// <param name="y">Second Number</param>
+        void Sub(int x, int y)
+        {
+            // Start Subtract
+            Output.Add(0x0);
+            Output.Add(0x1);
+            // First number
+            foreach (byte add in BitConverter.GetBytes(x))
+                Output.Add(add);
+
+            // Second number
+            Output.Add(0xfe);
+            foreach (byte add in BitConverter.GetBytes(y))
+                Output.Add(add);
+
+            // End Subtract
+            Output.Add(0xff);
+        }
+
+        /// <summary>
+        /// Divide two numbers.
+        /// Please... do not touch this method unless you know what you are doing.
+        /// </summary>
+        /// <param name="x">First Number</param>
+        /// <param name="y">Second Number</param>
+        void Div(int x, int y)
+        {
+            // Start Divide
+            Output.Add(0x0);
+            Output.Add(0x2);
+            // First number
+            foreach (byte add in BitConverter.GetBytes(x))
+                Output.Add(add);
+
+            // Second number
+            Output.Add(0xfe);
+            foreach (byte add in BitConverter.GetBytes(y))
+                Output.Add(add);
+
+            // End Divide
+            Output.Add(0xff);
+        }
+
+        /// <summary>
+        /// Multiply two numbers.
+        /// Please... do not touch this method unless you know what you are doing.
+        /// </summary>
+        /// <param name="x">First Number</param>
+        /// <param name="y">Second Number</param>
+        void Mul(int x, int y)
+        {
+            // Start Multiply
+            Output.Add(0x0);
+            Output.Add(0x3);
+            // First number
+            foreach (byte add in BitConverter.GetBytes(x))
+                Output.Add(add);
+
+            // Second number
+            Output.Add(0xfe);
+            foreach (byte add in BitConverter.GetBytes(y))
+                Output.Add(add);
+
+            // End Multiply
+            Output.Add(0xff);
+        }
+
+        /// <summary>
+        /// Move the contents of an address.
+        /// Only use when you know what you are doing.
+        /// </summary>
+        /// <param name="x">To</param>
+        /// <param name="y">From</param>
+        void MoveC(int x, int y)
+        {
+            // Clear the current value of the destination
+            ClearVar(x);
+
+            // Start Move
+            Output.Add(0x0);
+            Output.Add(0x8);
+
+            // Move to
+            foreach (byte add in BitConverter.GetBytes(x))
+                Output.Add(add);
+
+            // Move from
+            Output.Add(0xfe);
+            foreach (byte add in BitConverter.GetBytes(y))
+                Output.Add(add);
+
+            // End Move
+            Output.Add(0xff);
+
+            // Clear the current value of the source
+            ClearVar(y);
+        }
+
+        /// <summary>
+        /// Move the specified addresses.
+        /// </summary>
+        /// <param name="x">To.</param>
+        /// <param name="y">From.</param>
+        void Move(int x, int y)
 		{
-			// Start Move
-			Output.Add(0x0);
+            // Clear the current value of the destination
+            ClearVar(x);
+
+            // Start Move
+            Output.Add(0x0);
 			Output.Add(0x9);
 
 			// Move to
@@ -247,13 +378,13 @@ namespace Strobe
 
 			// End Move
 			Output.Add(0xff);
-		}
+        }
 
-		/// <summary>
-		/// Generate from the specified function.
-		/// </summary>
-		/// <param name="func">Function.</param>
-		void Generate(Function func, Args args, Function old)
+        /// <summary>
+        /// Generate from the specified function.
+        /// </summary>
+        /// <param name="func">Function.</param>
+        void Generate(Function func, Args args, Function old)
 		{
 			/* 
 			 * Welome to hell.
@@ -365,6 +496,107 @@ namespace Strobe
 							// Throw an exception
 						} else throw new Exception ("Invalid arguments in `new`.");
 					break;
+                    /*
+                     * Multiply two numbers
+                     */
+                    case "proc_Mul":
+                        // Check for valid size of arguments.
+                        if (i.Func.Arguments.Arguments.Count == 2)
+                        {
+                            int var1, var2;
+                            // Check for the arguments var1
+                            if (i.Func.Arguments.Arguments[0].Name.ToLower().StartsWith("x"))
+                                var1 = int.Parse(i.Func.Arguments.Arguments[0].Name.ToLower().TrimStart('x'));
+                            else
+                                var1 = Vars[func.Name + i.Func.Arguments.Arguments[0].Name];
+
+                            // Check for the arguments var2
+                            if (i.Func.Arguments.Arguments[1].Name.ToLower().StartsWith("x"))
+                                var2 = int.Parse(i.Func.Arguments.Arguments[1].Name.ToLower().TrimStart('x'));
+                            else
+                                var2 = Vars[func.Name + i.Func.Arguments.Arguments[1].Name];
+
+                            // Use the add function.
+                            Mul(var1, var2);
+                        }
+                        else throw new Exception("Invalid arguments in `proc_Mul`.");
+                        break;
+                    /*
+                     * Divide two numbers
+                     */
+                    case "proc_Div":
+                        // Check for valid size of arguments.
+                        if (i.Func.Arguments.Arguments.Count == 2)
+                        {
+                            int var1, var2;
+                            // Check for the arguments var1
+                            if (i.Func.Arguments.Arguments[0].Name.ToLower().StartsWith("x"))
+                                var1 = int.Parse(i.Func.Arguments.Arguments[0].Name.ToLower().TrimStart('x'));
+                            else
+                                var1 = Vars[func.Name + i.Func.Arguments.Arguments[0].Name];
+
+                            // Check for the arguments var2
+                            if (i.Func.Arguments.Arguments[1].Name.ToLower().StartsWith("x"))
+                                var2 = int.Parse(i.Func.Arguments.Arguments[1].Name.ToLower().TrimStart('x'));
+                            else
+                                var2 = Vars[func.Name + i.Func.Arguments.Arguments[1].Name];
+
+                            // Use the add function.
+                            Div(var1, var2);
+                        }
+                        else throw new Exception("Invalid arguments in `proc_Div`.");
+                        break;
+                    /*
+                     * Subtract two numbers
+                     */
+                    case "proc_Sub":
+                        // Check for valid size of arguments.
+                        if (i.Func.Arguments.Arguments.Count == 2)
+                        {
+                            int var1, var2;
+                            // Check for the arguments var1
+                            if (i.Func.Arguments.Arguments[0].Name.ToLower().StartsWith("x"))
+                                var1 = int.Parse(i.Func.Arguments.Arguments[0].Name.ToLower().TrimStart('x'));
+                            else
+                                var1 = Vars[func.Name + i.Func.Arguments.Arguments[0].Name];
+
+                            // Check for the arguments var2
+                            if (i.Func.Arguments.Arguments[1].Name.ToLower().StartsWith("x"))
+                                var2 = int.Parse(i.Func.Arguments.Arguments[1].Name.ToLower().TrimStart('x'));
+                            else
+                                var2 = Vars[func.Name + i.Func.Arguments.Arguments[1].Name];
+
+                            // Use the add function.
+                            Sub(var1, var2);
+                        }
+                        else throw new Exception("Invalid arguments in `proc_Sub`.");
+                        break;
+                        /*
+                         * Add two numbers
+                         */
+                    case "proc_Add":
+                        // Check for valid size of arguments.
+                        if (i.Func.Arguments.Arguments.Count == 2)
+                        {
+                            int var1, var2;
+                            // Check for the arguments var1
+                            if (i.Func.Arguments.Arguments[0].Name.ToLower().StartsWith("x"))
+                                var1 = int.Parse(i.Func.Arguments.Arguments[0].Name.ToLower().TrimStart('x'));
+                            else
+                                var1 = Vars[func.Name + i.Func.Arguments.Arguments[0].Name];
+
+                            // Check for the arguments var2
+                            if (i.Func.Arguments.Arguments[1].Name.ToLower().StartsWith("x"))
+                                var2 = int.Parse(i.Func.Arguments.Arguments[1].Name.ToLower().TrimStart('x'));
+                            else
+                                var2 = Vars[func.Name + i.Func.Arguments.Arguments[1].Name];
+
+                            // Use the add function.
+                            Add(var1,var2);
+                        } else
+                            // Thow an exception
+                            throw new Exception("Invalid arguments in `proc_Add`.");
+                        break;
 						/*
 						 * Get Value
 						 */
@@ -377,7 +609,7 @@ namespace Strobe
 							if (i.Func.Arguments.Arguments [0].Name.ToLower ().StartsWith ("x"))
 
 								//Set the var to a parsed integer of the var name without "x"
-								var = int.Parse (i.Var.Name.ToLower ().TrimStart ('x')); 
+								var = int.Parse (i.Func.Arguments.Arguments[0].Name.ToLower().TrimStart ('x')); 
 							else
 								// Set the var to the pre-defined value of the var name.
 								var = Vars[func.Name + i.Func.Arguments.Arguments [0].Name];
@@ -454,14 +686,14 @@ namespace Strobe
 										// Define the variable if it's not already defined
 										if (!Vars.ContainsKey(func.Name + i.Var.Name))
 										{
-											// Define Variable
-											Vars.Add(func.Name + i.Var.Name, var);
-										}
-										else {
-											// Change Variable
-											Vars[func.Name + i.Var.Name] = var;
-										}
-									}
+                                            // Define Variable
+                                            Vars.Add(func.Name + i.Var.Name, var);
+                                        }
+                                        else {
+                                            // Change Variable
+                                            Vars[func.Name + i.Var.Name] = var;
+                                        }
+                                    }
 								}
 							}
 						}
@@ -502,21 +734,16 @@ namespace Strobe
 		/// </summary>
 		/// <param name="Var">Variable.</param>
 		void FreeVar(int Var)
-		{
-			/*
-			 * Not implemented in kernel yet, but the idea is:
-			 * - Remove all traces of the variable;
-			 * - Free the space;
-			 * - Pull all the variables down to the empty space;
-			 * - Move the free address number down to the last variable;
-			 */
-		}
+        {
+            ClearVar(Var);
+            // When you make it available to the format, add it here too.
+        }
 
-		/// <summary>
-		/// Collects the garbadge.
-		/// </summary>
-		/// <param name="FuncName">Function name.</param>
-		void CollectGarbadge(string FuncName)
+        /// <summary>
+        /// Collects the garbadge.
+        /// </summary>
+        /// <param name="FuncName">Function name.</param>
+        void CollectGarbadge(string FuncName)
 		{
 			// To avoid a bug.
 			var Varc = new Dictionary<string, int>(Vars);
@@ -524,7 +751,6 @@ namespace Strobe
 			{
 				if (v.Key.StartsWith(FuncName))
 				{
-					ClearVar(v.Value);
 					FreeVar(v.Value);
 					Vars.Remove(v.Key);
 				}
