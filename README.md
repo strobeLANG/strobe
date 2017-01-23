@@ -24,7 +24,7 @@ The syntax is influenced by the following programming languages:
  - PHP - for the variables and functions;
 
 ## How do i get started?
-Read the wiki, starting with [this page](/mihail-mojsoski/Strobe/wiki/Learn-Strobe).
+Read the wiki, starting with [this page](//github.com/mihail-mojsoski/Strobe/wiki/Learn-Strobe).
 
 ### Currently Working On:
 #### Functions and Loops
