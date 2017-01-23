@@ -24,8 +24,7 @@ The syntax is influenced by the following programming languages:
  - PHP - for the variables and functions;
 
 ## How do i get started?
-Download the debugger and try it out,
-![Debugger](http://i.imgur.com/PlyZLkr.png)
+Read the wiki, starting with [this page](wiki/Learn-Strobe).
 
 ### Currently Working On:
 #### Functions and Loops
