@@ -9,9 +9,15 @@ namespace StrobeC
 	{
 		public static void Main(string[] args)
 		{
+            bool pauseEnd = false;
 			Console.ForegroundColor = ConsoleColor.Yellow;
 			Console.WriteLine("Compiling...");
 			Console.ResetColor();
+            foreach(string a in args)
+            {
+                if (a == "--pause")
+                    pauseEnd = true;
+            }
 			if (args.Length > 0)
 			{
 				string name = args[0];
@@ -71,6 +77,11 @@ namespace StrobeC
 			else {
 				Console.WriteLine("Error 0: \"File does not exist\" at 0");
 			}
+            if(pauseEnd)
+            {
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey(true);
+            }
 		}
 		static string WriteLoc(string name, int location)
 		{
