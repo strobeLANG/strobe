@@ -330,9 +330,6 @@ namespace Strobe
         /// <param name="y">From</param>
         void MoveC(int x, int y)
         {
-            // Clear the current value of the destination
-            ClearVar(x);
-
             // Start Move
             Output.Add(0x0);
             Output.Add(0x8);
@@ -348,9 +345,6 @@ namespace Strobe
 
             // End Move
             Output.Add(0xff);
-
-            // Clear the current value of the source
-            ClearVar(y);
         }
 
         /// <summary>
@@ -360,9 +354,6 @@ namespace Strobe
         /// <param name="y">From.</param>
         void Move(int x, int y)
 		{
-            // Clear the current value of the destination
-            ClearVar(x);
-
             // Start Move
             Output.Add(0x0);
 			Output.Add(0x9);
@@ -414,7 +405,7 @@ namespace Strobe
 
 					// Check if to use direct (starting with x)
 					if (func.Arguments.Arguments [i].Name.ToLower ().StartsWith ("x")) {
-						// Move the contents to the address
+						// Move the address
 						Move (int.Parse (func.Arguments.Arguments [i].Name.ToLower ().TrimStart ('x')), var);
 					} else {
 						// Check if it is already defined, if not, define it.
@@ -680,8 +671,8 @@ namespace Strobe
 								{
 									// Check if it's a direct address
 									if (i.Var.Name.ToLower().StartsWith("x"))
-										// Move the address
-										Move(int.Parse(i.Var.Name.ToLower().TrimStart('x')), var);
+										// Move the data**
+										MoveC(int.Parse(i.Var.Name.ToLower().TrimStart('x')), var);
 									else {
 										// Define the variable if it's not already defined
 										if (!Vars.ContainsKey(func.Name + i.Var.Name))
