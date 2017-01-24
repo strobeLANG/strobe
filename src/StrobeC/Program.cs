@@ -69,7 +69,6 @@ namespace StrobeC
 						catch (Exception)
 						{
 							Console.WriteLine("Error 0: \"Couldn't write to file\" at 0");
-							return;
 						}
 					}
 				}

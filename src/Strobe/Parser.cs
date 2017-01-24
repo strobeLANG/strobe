@@ -70,10 +70,15 @@ namespace Strobe
 			Parse();
 		}
 
-		/// <summary>
-		/// Is it in a namespace?
-		/// </summary>
-		bool inNamespace,
+        /// <summary>
+        /// Is it in IBlock?
+        /// </summary>
+        int inIBlock;
+
+        /// <summary>
+        /// Is it in a namespace?
+        /// </summary>
+        bool inNamespace,
 
 		/// <summary>
 		/// Is it in a function?
@@ -105,6 +110,7 @@ namespace Strobe
 			inNamespace = false;
 			inFunction = false;
 			needArgs = false;
+            inIBlock = 0;
 		}
 
 		/// <summary>
@@ -119,7 +125,26 @@ namespace Strobe
 					Current++;
 					continue;
 				}
-				if (!inNamespace) {
+                if (Now.Type == STokenType.Block && Now.Value == "close" && (inIBlock == 0))
+                {
+                    if (inFunctionBlock)
+                    {
+                        inFunctionBlock = false;
+                        inFunction = false;
+                        Current++;
+                        Namespace_current.Functions.Add(Function_current);
+                        continue;
+                    }
+                    else
+                    {
+                        Namespaces.Add(Namespace_current);
+                        inNamespace = false;
+                        inNamespaceBlock = false;
+                        Current++;
+                        continue;
+                    }
+                }
+                if (!inNamespace) {
 					if (CheckNamespace ()) {
 						continue;
 					}
@@ -143,30 +168,13 @@ namespace Strobe
 									continue;
 								}
 							} else {
-								if (Now.Type == STokenType.Arguments || Now.Type == STokenType.Instruction || Now.Type == STokenType.Return) {
+								if (Now.Type == STokenType.Arguments || Now.Type == STokenType.Block || Now.Type == STokenType.Instruction || Now.Type == STokenType.Return) {
 									if (Instruction ()) {
 										continue;
 									}
 								}
 							}
 						}
-					}
-				}
-				if (Now.Type == STokenType.Block && Now.Value == "close") {
-					if (inFunctionBlock) {
-						inFunctionBlock = false;
-						inFunction = false;
-						Current++;
-						Namespace_current.Functions.Add (Function_current);
-						continue;
-					}
-						else
-					{
-						Namespaces.Add (Namespace_current);
-						inNamespace = false;
-						inNamespaceBlock = false;
-						Current++;
-						continue;
 					}
 				}
 				Res.Errors.Add(new Error { Code = 4, Value = "Unexpected Token (" + Now.Type + ":" + Now.Value + ")", Location = Now.Location });
@@ -181,6 +189,22 @@ namespace Strobe
 		/// </summary>
 		bool Instruction()
 		{
+            if (Now.Type == STokenType.Block)
+            {
+                //TODO: Implement functionality.
+                if (Now.Value == "open")
+                {
+                    inIBlock++;
+                    Current++;
+                    return true;
+                }
+                if (Now.Value == "close")
+                {
+                    inIBlock--;
+                    Current++;
+                    return true;
+                }
+            }
 			if (Now.Type == STokenType.Arguments) {
 				if (needArgs) {
 					Instruction_current.Func.Arguments = parseArguments (Now);
@@ -195,7 +219,6 @@ namespace Strobe
 			if(Now.Type == STokenType.Instruction)
 			{
 				needArgs = true;
-				InstructionType type = InstructionType.Void;
 				Token Tfunc = new Token();
 				Token Top = new Token();
 				Variable Tvar = new Variable();
@@ -286,7 +309,6 @@ namespace Strobe
 					Func = func,
 					Op = op,
 					Var = Tvar,
-					Type = type,
 				};
 				Current++;
 				return true;
@@ -388,21 +410,21 @@ namespace Strobe
 		/// </summary>
 		public ParserResult get()
 		{
-			//foreach (Namespace x in Tree.Namespaces) {
-			//	System.Console.WriteLine ("Namespace: {0}",x.Name);
-			//	foreach (Function y in x.Functions)
-			//	{
-			//		System.Console.WriteLine ("+Function: {0}",y.Name);
-			//		foreach (Instruction z in y.Instructions) {
-			//			System.Console.WriteLine ("++Instruction: {0} ", z.Func.Namespace+"."+z.Func.Function);
-			//			System.Console.WriteLine ("+++Variable: {0}", z.Var.Name);
-			//			System.Console.WriteLine ("+++Operator: {0}", z.Op.Type);
-			//			foreach (Variable v in z.Func.Arguments.Arguments) {
-			//				System.Console.WriteLine ("++++Argument: {0}", v.Name);
-			//			}
-			//		}
-			//	}
-			//}
+			foreach (Namespace x in Tree.Namespaces) {
+				System.Console.WriteLine ("Namespace: {0}",x.Name);
+				foreach (Function y in x.Functions)
+				{
+					System.Console.WriteLine ("+Function: {0}",y.Name);
+					foreach (Instruction z in y.Instructions) {
+						System.Console.WriteLine ("++Instruction: {0} ", z.Func.Namespace+"."+z.Func.Function);
+						System.Console.WriteLine ("+++Variable: {0}", z.Var.Name);
+						System.Console.WriteLine ("+++Operator: {0}", z.Op.Type);
+						foreach (Variable v in z.Func.Arguments.Arguments) {
+							System.Console.WriteLine ("++++Argument: {0}", v.Name);
+						}
+					}
+				}
+			}
 			return new ParserResult
 			{
 				Errors = Res.Errors,
