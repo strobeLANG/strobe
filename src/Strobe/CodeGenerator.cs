@@ -588,9 +588,30 @@ namespace Strobe
                             // Thow an exception
                             throw new Exception("Invalid arguments in `proc_Add`.");
                         break;
-						/*
-						 * Get Value
-						 */
+                    /*
+                     * Clear Value
+                     */
+                    case "clear":
+                        // Check for the arguments count.
+                        if (i.Func.Arguments.Arguments.Count == 1)
+                        {
+                            int var;
+                            // If it starts with "x", directly load the value
+                            if (i.Func.Arguments.Arguments[0].Name.ToLower().StartsWith("x"))
+                                //Set the var to a parsed integer of the var name without "x"
+                                var = int.Parse(i.Func.Arguments.Arguments[0].Name.ToLower().TrimStart('x'));
+                            else
+                                // Set the var to the pre-defined value of the var name.
+                                var = Vars[func.Name + i.Func.Arguments.Arguments[0].Name];
+
+                            // Clear the variable.
+                            ClearVar(var);
+                        }
+                        else throw new Exception("Invalid arguments in `clear`.");
+                        break;
+                        /*
+                         * Get value
+                         */ 
 				case "get":
 						// Check for the arguments count
 						if (i.Func.Arguments.Arguments.Count == 1) {
