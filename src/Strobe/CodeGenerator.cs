@@ -629,6 +629,68 @@ namespace Strobe
 							// Throw the exception
 							throw new Exception ("Incorrect amount of arguments in `get`.");
 					break;
+                        /*
+                         * The Is function.
+                         */
+                case "is":
+                        // Default size is 4
+                        int mSize = 4;
+                        // If there is a second argument
+                        if (i.Func.Arguments.Arguments.Count == 2)
+                        {
+                            // And it's a number
+                            if (i.Func.Arguments.Arguments[1].isNum)
+                                // Set the size to that number
+                                mSize = int.Parse(i.Func.Arguments.Arguments[1].Name);
+                            else
+                                // If not, thow an exception
+                                throw new Exception("Invalid argument in `is`.");
+                        }
+                        // Select the old variable
+                        int oldVar = 0;
+                        // Create the new variable
+                        int newVar = AddVariable(new byte[mSize]);
+                        // Get your sources
+                        if (i.Func.Arguments.Arguments[0].isConst == false)
+                        {
+                            // Check if it is an address
+                            if (i.Func.Arguments.Arguments[0].Name.ToLower().StartsWith("x"))
+                                // Set the oldVar address to that address.
+                                oldVar = int.Parse(i.Func.Arguments.Arguments[0].Name.ToLower().TrimStart('x'));
+                             else
+                                // Find a predefined variable.
+                                oldVar = Vars[func.Name + i.Func.Arguments.Arguments[0].Name];
+                        }
+                        else
+                            throw new Exception("Invalid argument in `is`.");
+                        // Where to assign
+                        if (i.Op?.Type == "=")
+                        {
+                            // Check if the variable is valid
+                            if (i.Var?.isConst == false)
+                            {
+
+                                // If it starts with "x", directly put into the variable
+                                if (i.Var.Name.ToLower().StartsWith("x"))
+                                    // Move.
+                                    newVar = int.Parse(i.Var.Name.ToLower().TrimStart('x'));
+                                else
+                                {
+                                    // If the variable isn't defined, define it.
+                                    if (!Vars.ContainsKey(func.Name + i.Var.Name))
+                                    {
+                                        Vars.Add(func.Name + i.Var.Name, newVar);
+                                    }
+                                    else
+                                    {
+                                        // Change the variable
+                                        Vars[func.Name + i.Var.Name] = newVar;
+                                    }
+                                }
+                            }
+                        }
+                        MoveC(newVar, oldVar);
+                        break;
 						/*
 						 * Interrupt
 						 */
