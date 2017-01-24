@@ -330,9 +330,6 @@ namespace Strobe
         /// <param name="y">From</param>
         void MoveC(int x, int y)
         {
-            // Clear the current value of the destination
-            ClearVar(x);
-
             // Start Move
             Output.Add(0x0);
             Output.Add(0x8);
@@ -348,9 +345,6 @@ namespace Strobe
 
             // End Move
             Output.Add(0xff);
-
-            // Clear the current value of the source
-            ClearVar(y);
         }
 
         /// <summary>
@@ -360,9 +354,6 @@ namespace Strobe
         /// <param name="y">From.</param>
         void Move(int x, int y)
 		{
-            // Clear the current value of the destination
-            ClearVar(x);
-
             // Start Move
             Output.Add(0x0);
 			Output.Add(0x9);
@@ -414,7 +405,7 @@ namespace Strobe
 
 					// Check if to use direct (starting with x)
 					if (func.Arguments.Arguments [i].Name.ToLower ().StartsWith ("x")) {
-						// Move the contents to the address
+						// Move the address
 						Move (int.Parse (func.Arguments.Arguments [i].Name.ToLower ().TrimStart ('x')), var);
 					} else {
 						// Check if it is already defined, if not, define it.
@@ -618,9 +609,30 @@ namespace Strobe
                             // Thow an exception
                             throw new Exception("Invalid arguments in `proc_Add`.");
                         break;
-						/*
-						 * Get Value
-						 */
+                    /*
+                     * Clear Value
+                     */
+                    case "clear":
+                        // Check for the arguments count.
+                        if (i.Func.Arguments.Arguments.Count == 1)
+                        {
+                            int var;
+                            // If it starts with "x", directly load the value
+                            if (i.Func.Arguments.Arguments[0].Name.ToLower().StartsWith("x"))
+                                //Set the var to a parsed integer of the var name without "x"
+                                var = int.Parse(i.Func.Arguments.Arguments[0].Name.ToLower().TrimStart('x'));
+                            else
+                                // Set the var to the pre-defined value of the var name.
+                                var = Vars[func.Name + i.Func.Arguments.Arguments[0].Name];
+
+                            // Clear the variable.
+                            ClearVar(var);
+                        }
+                        else throw new Exception("Invalid arguments in `clear`.");
+                        break;
+                        /*
+                         * Get value
+                         */ 
 				case "get":
 						// Check for the arguments count
 						if (i.Func.Arguments.Arguments.Count == 1) {
@@ -659,6 +671,68 @@ namespace Strobe
 							// Throw the exception
 							throw new Exception ("Incorrect amount of arguments in `get`.");
 					break;
+                        /*
+                         * The Is function.
+                         */
+                case "is":
+                        // Default size is 4
+                        int mSize = 4;
+                        // If there is a second argument
+                        if (i.Func.Arguments.Arguments.Count == 2)
+                        {
+                            // And it's a number
+                            if (i.Func.Arguments.Arguments[1].isNum)
+                                // Set the size to that number
+                                mSize = int.Parse(i.Func.Arguments.Arguments[1].Name);
+                            else
+                                // If not, thow an exception
+                                throw new Exception("Invalid argument in `is`.");
+                        }
+                        // Select the old variable
+                        int oldVar = 0;
+                        // Create the new variable
+                        int newVar = AddVariable(new byte[mSize]);
+                        // Get your sources
+                        if (i.Func.Arguments.Arguments[0].isConst == false)
+                        {
+                            // Check if it is an address
+                            if (i.Func.Arguments.Arguments[0].Name.ToLower().StartsWith("x"))
+                                // Set the oldVar address to that address.
+                                oldVar = int.Parse(i.Func.Arguments.Arguments[0].Name.ToLower().TrimStart('x'));
+                             else
+                                // Find a predefined variable.
+                                oldVar = Vars[func.Name + i.Func.Arguments.Arguments[0].Name];
+                        }
+                        else
+                            throw new Exception("Invalid argument in `is`.");
+                        // Where to assign
+                        if (i.Op?.Type == "=")
+                        {
+                            // Check if the variable is valid
+                            if (i.Var?.isConst == false)
+                            {
+
+                                // If it starts with "x", directly put into the variable
+                                if (i.Var.Name.ToLower().StartsWith("x"))
+                                    // Move.
+                                    newVar = int.Parse(i.Var.Name.ToLower().TrimStart('x'));
+                                else
+                                {
+                                    // If the variable isn't defined, define it.
+                                    if (!Vars.ContainsKey(func.Name + i.Var.Name))
+                                    {
+                                        Vars.Add(func.Name + i.Var.Name, newVar);
+                                    }
+                                    else
+                                    {
+                                        // Change the variable
+                                        Vars[func.Name + i.Var.Name] = newVar;
+                                    }
+                                }
+                            }
+                        }
+                        MoveC(newVar, oldVar);
+                        break;
 						/*
 						 * Interrupt
 						 */
@@ -701,8 +775,8 @@ namespace Strobe
 								{
 									// Check if it's a direct address
 									if (i.Var.Name.ToLower().StartsWith("x"))
-										// Move the address
-										Move(int.Parse(i.Var.Name.ToLower().TrimStart('x')), var);
+										// Move the data**
+										MoveC(int.Parse(i.Var.Name.ToLower().TrimStart('x')), var);
 									else {
 										// Define the variable if it's not already defined
 										if (!Vars.ContainsKey(func.Name + i.Var.Name))
