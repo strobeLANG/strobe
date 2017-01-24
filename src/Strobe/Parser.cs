@@ -197,7 +197,6 @@ namespace Strobe
 		{
             if (Now.Type == STokenType.Block)
             {
-                //TODO: Implement functionality.
                 if (Now.Value == "open")
                 {
                     if (inIBlock > 0)
@@ -205,6 +204,11 @@ namespace Strobe
                         return false;
                     }
                     IBlock_current = new IBlock();
+                    // Make sure that all of them are empty.
+                    IBlock_current.Func = new Execute();
+                    IBlock_current.Func.Function = "_ !block";
+                    IBlock_current.Op = new Operator();
+                    IBlock_current.Var = new Variable();
                     inIBlock++;
                     Current++;
                     return true;
@@ -438,6 +442,7 @@ namespace Strobe
 						System.Console.WriteLine ("++Instruction: {0} ", z.Func.Namespace+"."+z.Func.Function);
 						System.Console.WriteLine ("+++Variable: {0}", z.Var.Name);
 						System.Console.WriteLine ("+++Operator: {0}", z.Op.Type);
+                        if (z.Func.Arguments?.Arguments != null)
 						foreach (Variable v in z.Func.Arguments.Arguments) {
 							System.Console.WriteLine ("++++Argument: {0}", v.Name);
 						}
