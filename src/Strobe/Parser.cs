@@ -6,6 +6,12 @@ namespace Strobe
 	/// </summary>
 	public class Parser
 	{
+
+        /// <summary>
+        /// Current IBlock.
+        /// </summary>
+        IBlock IBlock_current = new IBlock();
+
 		/// <summary>
 		/// The input.
 		/// </summary>
@@ -194,12 +200,22 @@ namespace Strobe
                 //TODO: Implement functionality.
                 if (Now.Value == "open")
                 {
+                    if (inIBlock > 0)
+                    {
+                        return false;
+                    }
+                    IBlock_current = new IBlock();
                     inIBlock++;
                     Current++;
                     return true;
                 }
                 if (Now.Value == "close")
                 {
+                    if (inIBlock < 0)
+                    {
+                        return false;
+                    }
+                    Function_current.Instructions.Add(IBlock_current);
                     inIBlock--;
                     Current++;
                     return true;
@@ -208,7 +224,10 @@ namespace Strobe
 			if (Now.Type == STokenType.Arguments) {
 				if (needArgs) {
 					Instruction_current.Func.Arguments = parseArguments (Now);
-					Function_current.Instructions.Add (Instruction_current);
+                    if (inIBlock == 0)
+                        Function_current.Instructions.Add(Instruction_current);
+                    else
+                        IBlock_current.List.Add(Instruction_current);
 					needArgs = false;
 					Current++;
 					return true;
