@@ -1,7 +1,7 @@
-# The Strobe Compiler
-The Strobe Compiler compiles Strobe code into DIF executeable that will be able to be executed in our VM.
+# The Strobe Programming Langauge
+Strobe is a dynamic programming langauge that gets compiled into a DIF executable.
 
-If you find some report them at [Issues](//github.com/mihail-mojsoski/Strobe/issues), so we can fix them.
+If you find some bugs report them at [Issues](//github.com/mihail-mojsoski/Strobe/issues), so we can fix them.
 
 ```php
 #include <bioslib.str>
@@ -29,7 +29,7 @@ Read the wiki, starting with [this page](//github.com/mihail-mojsoski/Strobe/wik
 ### Currently Working On:
 #### Functions and Loops
 #### Math Operations
-#### Stability & Bug fixes
+#### C++ Runtime
 
 ###Do you want to support us?
 #### Contribute!
