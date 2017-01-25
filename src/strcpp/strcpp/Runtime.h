@@ -31,6 +31,9 @@ namespace str
 		private:
 			// Process the instruction
 			void Work(Instruction);
+
+			// Initialize reserved
+			void Reserved(int);
 		};
 
 		// Label
@@ -38,12 +41,12 @@ namespace str
 		{
 			int ID;
 			int Location;
-		} Label;
+		} cLabel;
 
 		// Label Array
 		typedef struct
 		{
-			Label *value;
+			cLabel *value;
 			int size;
 			int current;
 		} LArray;

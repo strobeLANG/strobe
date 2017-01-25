@@ -18,8 +18,11 @@ namespace str
 
 			// Initialize labels
 			labels->size = pSize * 64;
-			labels->value = new Label[labels->size];
+			labels->value = new cLabel[labels->size];
 			labels->current = 0;
+
+			// Initialize reserved
+			Reserved(16);
 		}
 
 		//  Start Definition
