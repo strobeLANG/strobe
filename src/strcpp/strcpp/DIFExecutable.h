@@ -11,28 +11,12 @@ namespace str
 		public:
 			// Instruction list
 			IDifArray Instructions;
+
 			// Turn it into a CPU Instruction Array
-			IArray CPU()
-			{
-				Instruction* insts = (Instruction *)malloc(Instructions.size);
-				for (int i = 0; i < Instructions.size; i++)
-				{
-					insts[i] = Instructions.value[i].toInstruction();
-				}
-				IArray ret;
-				ret.size = Instructions.size;
-				ret.value = insts;
-				return ret;
-			}
+			IArray CPU();
 
 			// Add an instruction
-			void AddInst(DIFInstruction ins)
-			{
-				if (_i < _size)
-					Instructions.value[_i++] = ins;
-				else
-					throw;
-			}
+			void AddInst(DIFInstruction);
 
 			// Define the executable
 			DIFExecutable(int iSize) : Executable(DIF)

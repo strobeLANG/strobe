@@ -150,9 +150,18 @@
     <ClInclude Include="Executable.h" />
     <ClInclude Include="Format.h" />
     <ClInclude Include="Instruction.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="Runtime.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BIOS.cpp" />
+    <ClCompile Include="DIFExecutable.cpp" />
+    <ClCompile Include="DIFLoad.cpp" />
+    <ClCompile Include="DIFOpType.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="Runtime.cpp" />
+    <ClCompile Include="Work.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

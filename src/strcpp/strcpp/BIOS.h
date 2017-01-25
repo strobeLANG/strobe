@@ -10,51 +10,19 @@ namespace str
 		{
 		public:
 			// Initialize the bios
-			BIOS()
-			{
-				loc = 0;
-			}
+			BIOS();
 
 			// Write char array
-			void Write(char* c)
-			{
-				BArray i;
-				i.value = (byte *)c;
-				i.size = strlen(c);
-				Write(i);
-			}
+			void Write(char*);
 
 			// Write byte array
-			void Write(BArray c)
-			{
-				for (int i = 0; i < c.size; i++)
-				{
-					Write((char)c.value[i]);
-				}
-			}
+			void Write(BArray);
 
 			// Display buffer to console
-			void Display()
-			{
-				loc = 0;
-				// Print every character
-				for(int i = 0; i < BufferSize; i++)
-					if (buffer[i] > 5) printf("%c",buffer[i]);
-			}
+			void Display();
 			
 			// Write character
-			void Write(char c)
-			{
-				if (loc < BufferSize)
-				{
-					buffer[loc++] = c;
-				}
-				else
-				{
-					Display();
-					buffer[loc++] = c;
-				}
-			}
+			void Write(char);
 
 		private:
 			// The buffer
