@@ -144,6 +144,9 @@
   <ItemGroup>
     <ClInclude Include="BIOS.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="DIFExecutable.h" />
+    <ClInclude Include="DIFFormat.h" />
+    <ClInclude Include="DIFInstruction.h" />
     <ClInclude Include="Executable.h" />
     <ClInclude Include="Format.h" />
     <ClInclude Include="Instruction.h" />

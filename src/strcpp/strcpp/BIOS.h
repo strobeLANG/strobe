@@ -1,6 +1,4 @@
 #include "Common.h"
-#include <stdio.h>
-#include <string.h>
 #define BufferSize 128
 #pragma once
 namespace str
@@ -11,16 +9,6 @@ namespace str
 		class BIOS
 		{
 		public:
-			// Return the code of BIOS Setup
-			static byte* Setup()
-			{
-				return new byte[4]
-				{
-					// Currently not implemented,
-					// return the instruction for exit
-					0x0,0x6,0x0,0xff
-				};
-			}
 			// Initialize the bios
 			BIOS()
 			{
@@ -30,15 +18,18 @@ namespace str
 			// Write char array
 			void Write(char* c)
 			{
-				Write((byte*)c);
+				BArray i;
+				i.value = (byte *)c;
+				i.size = strlen(c);
+				Write(i);
 			}
 
 			// Write byte array
-			void Write(byte* c)
+			void Write(BArray c)
 			{
-				for (int i = 0; i < strlen((char *)c); i++)
+				for (int i = 0; i < c.size; i++)
 				{
-					Write((char)c[i]);
+					Write((char)c.value[i]);
 				}
 			}
 

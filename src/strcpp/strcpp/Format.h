@@ -1,4 +1,3 @@
-#include "Common.h"
 #include "Executable.h"
 #pragma once
 namespace str
@@ -8,8 +7,8 @@ namespace str
 	{
 	public:
 		// Abastract Load
-		virtual Executable Load(byte *Input) = 0;
+		virtual Executable Load(BArray Input) = 0;
 		// Abstract GetBytes
-		virtual byte* GetBytes(Executable Input) = 0;
+		virtual BArray GetBytes(Executable Input) = 0;
 	};
 }

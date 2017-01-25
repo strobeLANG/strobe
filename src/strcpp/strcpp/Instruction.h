@@ -7,16 +7,22 @@ namespace str
 	{
 	public:
 		OpType Operation; // Operation
-		byte *Parameters; // Parameters
+		BArray Parameters; // Parameters
 
 		// Definition
-		Instruction(OpType inop, byte *inp)
+		Instruction(OpType inop, BArray inp)
 		{
 			Operation = inop; // Operation
 			Parameters = inp; // Parameters
 		}
 	};
 
+	// Instruction Array
+	typedef struct{
+		Instruction *value;
+		int size;
+	} IArray;
+	
 	// Operation Type Enum
 	enum OpType
 	{

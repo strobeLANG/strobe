@@ -16,10 +16,17 @@ namespace str
 		}
 
 		// Virtual Instruction Array CPU
-		virtual Instruction* CPU()
+		virtual IArray CPU()
 		{
-			// Return the 
-			return new Instruction[]{Instruction(Null,0)};
+			// Define the array
+			IArray ret;
+			ret.size = 1;
+			BArray by;
+			by.value = new byte[1]{ 0 };
+			by.size = 1;
+			ret.value = new Instruction[]{ Instruction(Null, by) };
+			// Return the IArray
+			return ret;
 		}
 	};
 

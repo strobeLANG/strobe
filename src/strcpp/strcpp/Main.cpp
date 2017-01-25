@@ -1,5 +1,4 @@
 #include "BIOS.h"
-#include <cstdlib>
 #pragma once
 using namespace str::firmware;
 void main()
