@@ -9,6 +9,7 @@ namespace str
 		// The DIF Format
 		class DIFFormat : public Format
 		{
+		public:
 			// Turn the executable into bytes
 			BArray GetBytes(Executable)
 			{

@@ -30,6 +30,11 @@ namespace str
 			default:
 				throw("Invalid operation type.");
 			}
+
+
+
+			BArray *temp = 0;
+			return *temp;
 		}
 	}
 }

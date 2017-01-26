@@ -1,7 +1,9 @@
 #pragma once
 #include "Memory.h"
 #include "DIFExecutable.h"
+#include "BIOS.h"
 using namespace str::dif;
+using namespace str::firmware;
 namespace str
 {
 	namespace runtime
@@ -53,6 +55,9 @@ namespace str
 		class Runtime
 		{
 		public:
+			// Running check
+			bool Running();
+
 			// Initialize the runtime
 			Runtime(int);
 
@@ -61,6 +66,9 @@ namespace str
 
 			// Step once in every process
 			void Step();
+
+			// Basic output / input system (it's public)
+			BIOS bios;
 
 		private:
 			// Current Process Number

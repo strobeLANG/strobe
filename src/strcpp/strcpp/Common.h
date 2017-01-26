@@ -1,5 +1,7 @@
 #pragma once
 #include <stdio.h>
+#include <fstream>
+#include <iostream> 
 #include <string.h>
 #include <stdlib.h>
 namespace str
@@ -19,6 +21,8 @@ namespace str
 		int size;
 	} IntArray;
 
+	// Read a file into byte array
+	BArray ReadAllBytes(const char*);
 
 	// Byte array into integer
 	int Int32(BArray);

@@ -15,7 +15,7 @@ namespace str
 
 			// Define the default values
 			DIFExecutable Return = DIFExecutable(difsize);
-			BArray *b; b->value = 0; b->size = 0;
+			BArray *b = new BArray; b->value = 0; b->size = 0;
 			byte temp[TempSize];
 			DIFInstruction *cInst = new DIFInstruction(Null);
 			byte cNow; int cPos = 0; int iPos = 0;

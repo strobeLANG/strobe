@@ -2,6 +2,31 @@
 namespace str
 {
 
+	// Read a file into byte array
+	BArray ReadAllBytes(const char *name)
+	{
+		// The byte array to return.
+		BArray ret;
+
+		// The file stream to open
+		std::ifstream infile(name);
+
+		// Check the size
+		infile.seekg(0, infile.end);
+		ret.size = infile.tellg();
+		infile.seekg(0, infile.beg);
+
+		// Create the buffer
+		ret.value = new byte[ret.size];
+
+		// Read the file
+		infile.read((char*)ret.value, ret.size);
+
+		// Return the buffer
+		return ret;
+	}
+
+	// Turn integer into 4 bytes
 	BArray BArray4(int input)
 	{
 		// Define the byte array

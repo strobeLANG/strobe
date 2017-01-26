@@ -4,6 +4,19 @@ namespace str
 {
 	namespace runtime
 	{
+		// Running definition
+		bool Runtime::Running()
+		{
+			// Check the running processes.
+			for (int i = 0; i < processes->current; i++)
+				// If a process is running.
+				if (processes->value[i].running)
+					// Return true
+					return true;
+			// If no processes are running, return false.
+			return false;
+		}
+
 		// Runtime definition
 		Runtime::Runtime(int Size)
 		{
