@@ -2,27 +2,7 @@
 #include "Common.h"
 namespace str
 {
-	// The instruction class
-	class Instruction
-	{
-	public:
-		OpType Operation; // Operation
-		BArray Parameters; // Parameters
 
-		// Definition
-		Instruction(OpType inop, BArray inp)
-		{
-			Operation = inop; // Operation
-			Parameters = inp; // Parameters
-		}
-	};
-
-	// Instruction Array
-	typedef struct{
-		Instruction *value;
-		int size;
-	} IArray;
-	
 	// Operation Type Enum
 	enum OpType
 	{
@@ -41,4 +21,23 @@ namespace str
 		Label, // Define a label
 		Clear, // Clear a variable
 	};
+	// The instruction class
+	class Instruction
+	{
+	public:
+		OpType Operation; // Operation
+		BArray Parameters; // Parameters
+
+						   // Definition
+		Instruction(OpType inop, BArray inp)
+		{
+			Operation = inop; // Operation
+			Parameters = inp; // Parameters
+		}
+	};
+	// Instruction Array
+	typedef struct {
+		Instruction *value;
+		int size;
+	} IArray;
 }

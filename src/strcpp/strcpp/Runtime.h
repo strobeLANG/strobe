@@ -6,41 +6,6 @@ namespace str
 {
 	namespace runtime
 	{
-		// The runtime class
-		class Runtime
-		{
-		public:
-			// Initialize the runtime
-			Runtime(int);
-
-			//  Add a new process
-			void Start(Executable);
-
-			// Step once in every process
-			void Step();
-
-		private:
-			// Current Process Number
-			int pNum;
-
-			// Process the instruction
-			void Work(Instruction);
-
-			// Initialize reserved
-			void Reserved(int);
-
-			// The memory
-			Memory *memory;
-
-			// Processes
-			PArray *processes;
-
-			// Labels
-			LArray *labels;
-
-			// Processor
-			BArray Processor(Instruction, int*);
-		};
 
 		// Label
 		typedef struct
@@ -84,5 +49,40 @@ namespace str
 			int size;
 			int current;
 		} PArray;
+		// The runtime class
+		class Runtime
+		{
+		public:
+			// Initialize the runtime
+			Runtime(int);
+
+			//  Add a new process
+			void Start(Executable);
+
+			// Step once in every process
+			void Step();
+
+		private:
+			// Current Process Number
+			int pNum;
+
+			// Process the instruction
+			void Work(Instruction);
+
+			// Initialize reserved
+			void Reserved(int);
+
+			// The memory
+			Memory *memory;
+
+			// Processes
+			PArray *processes;
+
+			// Labels
+			LArray *labels;
+
+			// Processor
+			BArray Processor(Instruction, int*);
+		};
 	}
 }

@@ -5,6 +5,15 @@ namespace str
 {
 	namespace runtime
 	{
+		// Single Variable Structure
+		struct Variable
+		{
+			// The size
+			int Size = 0;
+			// The address
+			int Address = 0;
+		};
+
 		// The Memory Manager Class
 		class Memory
 		{
@@ -49,14 +58,5 @@ namespace str
 			// Current Address
 			int CurrentAddress;
 		};
-
-		// Single Variable Structure
-		typedef struct
-		{
-			// The size
-			int Size = 0;
-			// The address
-			int Address = 0;
-		} Variable;
 	}
 }

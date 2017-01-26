@@ -2,6 +2,11 @@
 #include "Instruction.h"
 namespace str
 {
+	// Execution types
+	enum ExecType
+	{
+		DIF, // Direct Instruction Format
+	};
 	// The executable class
 	class Executable
 	{
@@ -22,9 +27,4 @@ namespace str
 		}
 	};
 
-	// Execution types
-	enum ExecType
-	{
-		DIF, // Direct Instruction Format
-	};
 }
