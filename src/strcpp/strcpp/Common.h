@@ -1,7 +1,7 @@
+#pragma once
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#pragma once
 namespace str
 {
 	// Byte
@@ -22,6 +22,9 @@ namespace str
 
 	// Byte array into integer
 	int Int32(BArray);
+
+	// Integer into byte array
+	BArray BArray4(int);
 
 	// Arguments Parser
 	IntArray ParseArgs(BArray);

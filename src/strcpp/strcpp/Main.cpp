@@ -1,10 +1,7 @@
-#include "BIOS.h"
-#pragma once
-using namespace str::firmware;
+#include "Common.h"
 void main()
 {
-	BIOS x = BIOS();
-	x.Write("Hello World\n");
-	x.Display();
+	int y = str::Int32(str::BArray4(10));
+	printf("%i", y);
 	system("Pause");
 }

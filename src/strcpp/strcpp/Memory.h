@@ -1,6 +1,6 @@
+#pragma once
 #include "Common.h"
 #define MaxVars 1024
-#pragma once
 namespace str
 {
 	namespace runtime

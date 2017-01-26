@@ -1,5 +1,5 @@
-#include "Instruction.h"
 #pragma once
+#include "Instruction.h"
 namespace str
 {
 	// The executable class

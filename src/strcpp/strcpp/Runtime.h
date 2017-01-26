@@ -1,6 +1,6 @@
+#pragma once
 #include "Memory.h"
 #include "DIFExecutable.h"
-#pragma once
 using namespace str::dif;
 namespace str
 {

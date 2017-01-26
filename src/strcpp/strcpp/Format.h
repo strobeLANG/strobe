@@ -1,5 +1,5 @@
-#include "Executable.h"
 #pragma once
+#include "Executable.h"
 namespace str
 {
 	// Format abstract class

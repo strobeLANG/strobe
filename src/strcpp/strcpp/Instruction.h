@@ -1,5 +1,5 @@
-#include "Common.h"
 #pragma once
+#include "Common.h"
 namespace str
 {
 	// The instruction class

@@ -1,6 +1,6 @@
+#pragma once
 #include "Common.h"
 #define BufferSize 128
-#pragma once
 namespace str
 {
 	namespace firmware

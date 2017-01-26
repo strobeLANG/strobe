@@ -1,6 +1,6 @@
+#pragma once
 #include "Executable.h"
 #include "DIFInstruction.h"
-#pragma once
 namespace str
 {
 	namespace dif

@@ -2,6 +2,23 @@
 namespace str
 {
 
+	BArray BArray4(int input)
+	{
+		// Define the byte array
+		BArray ret;
+		ret.size = 4;
+		ret.value = new byte[ret.size];
+		
+		// Turn it into byte array
+		ret.value[0] = (input >> 24) & 0xFF;
+		ret.value[1] = (input >> 16) & 0xFF;
+		ret.value[2] = (input >> 8) & 0xFF;
+		ret.value[3] = input & 0xFF;
+
+		// Return
+		return ret;
+	}
+
 	// Get second argument
 	BArray GetSecond(BArray input)
 	{
@@ -54,7 +71,7 @@ namespace str
 			throw("To create a 32-bit integer you need 4 bytes.");
 
 		// Integer to return.
-		int ret;
+		int ret = 0;
 
 		// Calculate it
 		for (int i = 0; i < 4; i++)

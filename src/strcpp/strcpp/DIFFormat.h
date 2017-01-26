@@ -1,7 +1,7 @@
+#pragma once
 #include "Format.h"
 #include "DIFExecutable.h"
 #define TempSize 1024
-#pragma once
 namespace str
 {
 	namespace dif
