@@ -13,6 +13,12 @@ namespace str
 			// The parameters
 			BArray Param;
 
+			// Default initializer
+			DIFInstruction()
+			{
+				
+			}
+
 			// Initialize DIF Instruction
 			DIFInstruction(OpType iop)
 			{
@@ -22,7 +28,8 @@ namespace str
 			// Convert to normal instruction
 			Instruction toInstruction()
 			{
-				return Instruction(Operation,Param);
+				Instruction x = Instruction(Operation, Param);
+				return x;
 			}
 		};
 

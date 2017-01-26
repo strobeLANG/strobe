@@ -24,7 +24,7 @@ namespace str
 				_i = 0;
 				_size = iSize;
 				Instructions.size = _size;
-				Instructions.value = (DIFInstruction*)malloc(_size);
+				Instructions.value = new DIFInstruction[_size];
 			}
 		private:
 			// Size
