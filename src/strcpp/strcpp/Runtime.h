@@ -10,15 +10,6 @@ namespace str
 		class Runtime
 		{
 		public:
-			// The memory
-			Memory *memory;
-
-			// Processes
-			PArray *processes;
-
-			// Labels
-			LArray *labels;
-
 			// Initialize the runtime
 			Runtime(int);
 
@@ -29,11 +20,26 @@ namespace str
 			void Step();
 
 		private:
+			// Current Process Number
+			int pNum;
+
 			// Process the instruction
 			void Work(Instruction);
 
 			// Initialize reserved
 			void Reserved(int);
+
+			// The memory
+			Memory *memory;
+
+			// Processes
+			PArray *processes;
+
+			// Labels
+			LArray *labels;
+
+			// Processor
+			BArray Processor(Instruction, int*);
 		};
 
 		// Label

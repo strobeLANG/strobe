@@ -23,9 +23,21 @@ namespace str
 
 			// Clear the variable
 			void Clear(int);
+			
+			// Get Variable
+			Variable GetVariable(int);
+
+			// Set Variable
+			void SetVariable(int,Variable);
+
+			// Get Contents
+			BArray Get(int);
 
 			// Get the memory
 			BArray Get();
+
+			// Get Range
+			BArray GetRange(int,int);
 
 		private:
 			// Size of memory

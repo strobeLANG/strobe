@@ -4,6 +4,70 @@ namespace str
 {
 	namespace runtime
 	{
+
+		// GetVariable definition
+		Variable Memory::GetVariable(int iLoc)
+		{
+			// Do error checks
+			if (iLoc >= MaxVars)
+				throw("Variable is impossible to be declared.");
+			if (Variables[iLoc].Size == 0)
+				throw("Variable is not declared.");
+			
+			// Return
+			return Variables[iLoc];
+		}
+
+		// SetVariable defintion
+		void Memory::SetVariable(int iLoc, Variable iNew)
+		{
+			// Do error checks
+			if (iLoc >= MaxVars)
+				throw("Variable is impossible to be declared.");
+			if (Variables[iLoc].Size == 0)
+				throw("Variable is not declared.");
+
+			// Change the variable to iNew
+			Variables[iLoc] = iNew;
+		}
+
+		// GetRange definition
+		BArray Memory::GetRange(int Start, int End)
+		{
+			// Do error checks
+			if (Start  <= End)
+				throw("Start is not smaller than End.");
+			if (End > Size)
+				throw("End is larger than the Memory.");
+
+			// Define the return variable
+			BArray ret;
+			ret.size = Start - End;
+			ret.value = new byte[ret.size];
+
+			// Get the contents
+			for (int i = Start; Start < End; i++)
+				ret.value[i - Start] = Storage[i];
+
+			// Return
+			return ret;
+		}
+
+
+
+		// Get definition
+		BArray Memory::Get(int iLoc)
+		{
+			// Do error checks
+			if (iLoc >= MaxVars)
+				throw("Variable is impossible to be declared.");
+			if (Variables[iLoc].Size == 0)
+				throw("Variable is not declared.");
+			
+			// Return the byte array
+			return GetRange(Variables[iLoc].Address, Variables[iLoc].Address + Variables[iLoc].Size);
+		}
+
 		// Get definition
 		BArray Memory::Get()
 		{
@@ -36,7 +100,7 @@ namespace str
 		Memory::Memory(int iSize)
 		{
 			Size = iSize;
-			Storage = (byte*)malloc(Size);
+			Storage = new byte[Size];
 		}
 
 		// Allocate definition

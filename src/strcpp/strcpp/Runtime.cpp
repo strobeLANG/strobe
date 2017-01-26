@@ -53,6 +53,7 @@ namespace str
 				// If the process is running, step.
 				if (processes->value[i].running)
 				{
+					pNum = i;
 					// Try to step
 					try
 					{
