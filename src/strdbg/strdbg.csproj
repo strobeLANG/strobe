@@ -58,15 +58,15 @@
     <Compile Include="gtk-gui\strdbg.HException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StrobeVM\strlib\strlib.csproj">
+    <ProjectReference Include="..\strvmr\strlib\strlib.csproj">
       <Project>{0265F221-395F-4B78-821C-26E20B7BD86E}</Project>
       <Name>strlib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StrobeC\strcom.csproj">
+    <ProjectReference Include="..\strcom\strcom.csproj">
       <Project>{2DA50113-1398-4C64-9227-CF89B3E7ECB5}</Project>
       <Name>strcom</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StrobeVM\strdif\strdif.csproj">
+    <ProjectReference Include="..\strvmr\strdif\strdif.csproj">
       <Project>{80AA0BF3-DB48-4596-899A-1FBF705004C7}</Project>
       <Name>strdif</Name>
     </ProjectReference>
@@ -74,7 +74,7 @@
       <Project>{E3DDF33B-DF11-4DD6-B11F-E920E5841B23}</Project>
       <Name>strobe</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StrobeVM\strvmc\strvmc.csproj">
+    <ProjectReference Include="..\strvmr\strvmc\strvmc.csproj">
       <Project>{5830E9E9-F5F8-45A1-92E3-38081654D8E2}</Project>
       <Name>strvmc</Name>
     </ProjectReference>
