@@ -9,10 +9,23 @@ namespace StrobeVM.Firmware
 	/// </summary>
 	public class BIOS
 	{
-		/// <summary>
-		/// Return the code for BIOS Setup.
-		/// </summary>
-		public static byte[] Setup()
+        /// <summary>
+        ///  Turn the string into bytes.
+        /// </summary>
+        /// <param name="s">Input String</param>
+        /// <returns>The byte array</returns>
+        public byte[] GetBytes(string s)
+        {
+            byte[] ret = new byte[s.Length];
+            for (int i = 0; i < s.Length; i++)
+                ret[i] = (byte)s[i];
+            return ret;
+        }
+
+        /// <summary>
+        /// Return the code for BIOS Setup.
+        /// </summary>
+        public static byte[] Setup()
 		{
 			return Firmware.Setup.GetSetup(); // Return the setup
 		}
@@ -116,8 +129,11 @@ namespace StrobeVM.Firmware
 		public void AppendFile(byte[] file, byte[] content)
 		{
             List<byte> c = new List<byte>();
-            c.AddRange(ReadFile(file));
-            c.AddRange(content);
+            byte[] one = ReadFile(file);
+            foreach (byte b in one)
+                c.Add(b);
+            foreach (byte b in content)
+                c.Add(b);
             WriteFile(file,c.ToArray());
 		}
 
@@ -146,7 +162,7 @@ namespace StrobeVM.Firmware
 		/// <returns>The line.</returns>
 		public byte[] ReadLine()
 		{
-			return Encoding.ASCII.GetBytes(Console.ReadLine());
+			return GetBytes(Console.ReadLine());
 		}
 
 		/// <summary>
