@@ -447,6 +447,27 @@ namespace Strobe
 			// Parse the instructions
 			foreach (Instruction i in func.Instructions) {
 				switch (i.Func.Function) {
+                    /*
+                     * Handle Blocks
+                     */
+                    case "_ !block":
+                        // Handle the block
+                        Generate(new Function
+                        {
+                            // Keep the name (because of variables).
+                            Name = func.Name,
+                            // Copy the instructions
+                            Instructions = ((IBlock)i).List,
+                            // Return nothing
+                            Ret = new Return(),
+                            // Take no arguments
+                            Arguments = new Args
+                            {
+                                // Because
+                                Arguments = new List<Variable>()
+                            }
+                        },null,func);
+                        break;
 					/*
 					 * Define new variable from constant
 					 */
@@ -778,9 +799,10 @@ namespace Strobe
 								|| f.Ret.Type == TokenType.String)
 								throw new Exception("Functions can only return variables!");
 						}
-						// Collect the garbadge
-						CollectGarbadge(f.Name);
-						break;
+						// Collect the garbadge (if not in block)
+                        if ((old != null) && (old.Name == func.Name))
+                            CollectGarbadge(f.Name);
+                        break;
 				}
 			}
 		}

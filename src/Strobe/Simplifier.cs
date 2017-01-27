@@ -163,14 +163,14 @@ namespace Strobe
 		/// </summary>
 		public SimplifierResult get()
 		{
-		//	foreach (SToken s in STokens) {
-		//		System.Console.WriteLine ("[{0}:{1}]{2}",s.Location,s.Type,s.Value);
-		//		if (s.Instruction?.Count > 0) {
-		//			foreach (Token i in s.Instruction) {
-		//				System.Console.WriteLine ("+[{0}:{1}]{2}", i.Location,i.Type,i.Value);
-		//			}
-		//		}
-		//	}
+			foreach (SToken s in STokens) {
+				System.Console.WriteLine ("[{0}:{1}]{2}",s.Location,s.Type,s.Value);
+				if (s.Instruction?.Count > 0) {
+	    			foreach (Token i in s.Instruction) {
+						System.Console.WriteLine ("+[{0}:{1}]{2}", i.Location,i.Type,i.Value);
+					}
+				}
+			}
 			return new SimplifierResult
 			{
 				STokens = STokens,

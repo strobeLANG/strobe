@@ -34,7 +34,7 @@ namespace Strobe
 
 	public class Instruction : Data
 	{
-		public InstructionType Type;
+        public bool isBlock = false;
 		public Variable Var;
 		public Operator Op;
 		public Execute Func;
@@ -66,20 +66,18 @@ namespace Strobe
 		public List<Variable> Arguments;
 	}
 
+    // The instruction block type is bunch of instructions
+    public class IBlock : Instruction
+    {
+        public IBlock()
+        {
+            isBlock = true;
+        }
+        public List<Instruction> List = new List<Instruction>();
+    }
+
 	// Location is pointless because it won't be accurate
 	public class Data
 	{
-	}
-	// The instruction types
-	public enum InstructionType
-	{
-		// First
-		Void = -1,				// ;
-		VoidFunc = 0,			// Execute;
-		VarFunc	= 2,			// $Var = Execute;
-		// Second
-		VarFuncArg = 3,			// $Var = Execute(Arg);
-		VoidFuncArg = 4,		// Execute(Arg);
-		VoidArg = -2,			// (Arg);
 	}
 }
