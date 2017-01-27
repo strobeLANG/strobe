@@ -1,0 +1,3 @@
+[submodule "src/strcom/lib"]
+	path = src/strcom/lib
+	url = https://github.com/StrobeOS/lib
