@@ -1,8 +1,9 @@
-﻿using System.Threading;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using System.Linq;
 using StrobeVM.Firmware;
+using System.Collections;
+
 namespace StrobeVM.Hardware
 {
 	/// <summary>
@@ -85,18 +86,30 @@ namespace StrobeVM.Hardware
 			switch (ar[0])
 			{
 				case 0:
-					return Equ(ar.Skip(1).ToArray());
+					return Equ(RemoveFirst(ar));
 				case 1:
-					return Neq(ar.Skip(1).ToArray());
+					return Neq(RemoveFirst(ar));
 				case 2:
-					return Lss(ar.Skip(1).ToArray());
+					return Lss(RemoveFirst(ar));
 				case 3:
-					return Mor(ar.Skip(1).ToArray());
+					return Mor(RemoveFirst(ar));
 				default:
 					hardware.Error("CPU", 5);
 					return null;
 			}
 		}
+
+        /// <summary>
+        /// Remove the first element from a byte array.
+        /// </summary>
+        /// <returns></returns>
+        byte[] RemoveFirst(byte[] arr)
+        {
+            List<byte> n = new List<byte>(arr);
+            n.RemoveAt(0);
+            return n.ToArray();
+        }
+
 		/// <summary>
 		/// Display error message, and halt.
 		/// </summary>

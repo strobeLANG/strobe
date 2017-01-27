@@ -115,9 +115,10 @@ namespace StrobeVM.Firmware
 		/// <param name="content">Content.</param>
 		public void AppendFile(byte[] file, byte[] content)
 		{
-			File.AppendAllText(Encoding.ASCII.GetString(file),
-							   Encoding.ASCII.GetString(content),
-							   Encoding.ASCII);
+            List<byte> c = new List<byte>();
+            c.AddRange(ReadFile(file));
+            c.AddRange(content);
+            WriteFile(file,c.ToArray());
 		}
 
 		/// <summary>
