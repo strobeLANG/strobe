@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-namespace Strobe
+﻿namespace Strobe
 {
-	// The token class
-	public class Token
+    // The token class
+    public class Token
 	{
 		// The value of the token.
 		public string Value;

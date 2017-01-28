@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-namespace StrobeVM
+﻿namespace StrobeVM
 {
-	/// <summary>
-	/// Executeable.
-	/// </summary>
-	public class Executeable
+    /// <summary>
+    /// Executeable.
+    /// </summary>
+    public class Executeable
 	{
 		/// <summary>
 		/// Gets the type.

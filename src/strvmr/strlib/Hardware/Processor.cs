@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
 using System;
-using System.Linq;
 using StrobeVM.Firmware;
-using System.Collections;
 
 namespace StrobeVM.Hardware
 {
-	/// <summary>
-	/// Processor.
-	/// </summary>
-	public class Processor
+    /// <summary>
+    /// Processor.
+    /// </summary>
+    public class Processor
 	{
 		/// <summary>
 		/// The hardware.

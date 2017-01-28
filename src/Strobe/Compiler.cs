@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System;
-namespace Strobe
+﻿namespace Strobe
 {
-	// The Compiler Class
-	public class Compiler
+    // The Compiler Class
+    public class Compiler
 	{
 		// Errors & Warnings
 		Result Res = new Result();

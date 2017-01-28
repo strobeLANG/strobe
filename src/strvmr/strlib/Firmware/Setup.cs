@@ -1,14 +1,13 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Collections.Generic;
 using System.IO;
 
 namespace StrobeVM.Firmware
 {
-	/// <summary>
-	/// BIOS Setup.
-	/// </summary>
-	public static class Setup
+    /// <summary>
+    /// BIOS Setup.
+    /// </summary>
+    public static class Setup
 	{
 		const string Name = "BIOS Setup";
 		const string Version = "v0.0.1";

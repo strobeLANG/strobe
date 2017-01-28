@@ -1,6 +1,4 @@
 ﻿using System.IO;
-using System.Threading;
-using System.Text;
 public class ConsoleReader : TextReader
 {
 	private Gtk.Entry entry;

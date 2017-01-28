@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Text;
-using StrobeVM;
 using StrobeVM.DIF;
-using System.IO;
 using strdbg;
 using Gtk;
-using System.Threading;
 using System.Text.RegularExpressions;
 
 public partial class MainWindow : Gtk.Window
