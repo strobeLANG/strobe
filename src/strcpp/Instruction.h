@@ -20,6 +20,7 @@ namespace str
 		Op_Goto,
 		Op_Label,
 		Op_Clear,
+		Op_Test
 	};
 
 	// Insturction Class

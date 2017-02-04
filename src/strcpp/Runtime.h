@@ -54,6 +54,12 @@ namespace str
 				}
 		}
 
+		// Raw memory get
+		Variable raw(int i)
+		{
+			return variables[i];
+		}
+
 		// Get value
 		vector<Byte> get(int id)
 		{
@@ -63,6 +69,12 @@ namespace str
 			vector<Byte>x;
 			x.push_back(0);
 			return x;
+		}
+
+		// Get the size
+		size_t size()
+		{
+			return variables.size();
 		}
 
 		// Assign bytes to a variable
@@ -96,12 +108,28 @@ namespace str
 	{
 	private:
 		Memory memory = Memory();
+	
+		// Execute the instruction
+		void Execute(Instruction inst)
+		{
+			switch (inst.operation)
+			{
+				// Op Code: Test (Memory Dump)
+			case Op_Test:
+				cout << "== DUMP START ==\n";
+				for (int i = 0; (size_t)i < memory.size(); i++)
+					cout << memory.raw(i).id << ": " << memory.raw(i).content.size() << "\n";
+				cout << "== DUMP END ==\n";
+				break;
+			}
+		}
 
 	public:
 		// Run an executable
 		void Run(Executable e)
 		{
-			
+			for (int i = 0; (size_t)i < e.insturctions.size(); i++)
+				Execute(e.insturctions[i]);
 		}
 	};
 }
