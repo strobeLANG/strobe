@@ -98,10 +98,10 @@ namespace str
 		Memory memory = Memory();
 
 	public:
-		// Run the runtime
-		void Run()
+		// Run an executable
+		void Run(Executable e)
 		{
-
+			
 		}
 	};
 }
