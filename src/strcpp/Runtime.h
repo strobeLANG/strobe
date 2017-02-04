@@ -33,10 +33,9 @@ namespace str
 	// The memeory manager class
 	class Memory
 	{
-	private:
+	public:
 		vector<Variable> variables;
 
-	public:
 		// Allocate a new variable
 		void alloc(Variable var)
 		{
@@ -52,12 +51,6 @@ namespace str
 					variables.erase(variables.begin() + i);
 					return;
 				}
-		}
-
-		// Raw memory get
-		Variable raw(int i)
-		{
-			return variables[i];
 		}
 
 		// Get value
@@ -112,14 +105,31 @@ namespace str
 		// Execute the instruction
 		void Execute(Instruction inst)
 		{
+			vector<int> args = ParseArgs(inst.parameters);
 			switch (inst.operation)
 			{
+				// Move Contents 
+			case Op_Move:
+				memory.assign(args[0], memory.get(args[1]));
+				break;
+				// Allocate
+			case Op_Allocate:
+				memory.alloc(Variable(args[1], args[0]));
+				break;
+				// Assign
+			case Op_Assign:
+				memory.assign(args[0], GetSecond(inst.parameters));
+				break;
 				// Op Code: Test (Memory Dump)
 			case Op_Test:
 				cout << "== DUMP START ==\n";
 				for (int i = 0; (size_t)i < memory.size(); i++)
-					cout << memory.raw(i).id << ": " << memory.raw(i).content.size() << "\n";
+					cout << memory.variables[i].id << ": " << memory.variables[i].content.size() << "\n";
 				cout << "== DUMP END ==\n";
+				break;
+				// Not implemented yet
+			default:
+				throw("Not implemented yet.");
 				break;
 			}
 		}
