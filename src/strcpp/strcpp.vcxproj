@@ -18,6 +18,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="Instruction.h" />
+    <ClInclude Include="Runtime.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A290C3E4-D321-43E6-9362-E77D9CFD223C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -141,31 +149,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="BIOS.h" />
-    <ClInclude Include="Common.h" />
-    <ClInclude Include="DIFExecutable.h" />
-    <ClInclude Include="DIFFormat.h" />
-    <ClInclude Include="DIFInstruction.h" />
-    <ClInclude Include="Executable.h" />
-    <ClInclude Include="Format.h" />
-    <ClInclude Include="Instruction.h" />
-    <ClInclude Include="Memory.h" />
-    <ClInclude Include="Processor.h" />
-    <ClInclude Include="Runtime.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BIOS.cpp" />
-    <ClCompile Include="Common.cpp" />
-    <ClCompile Include="DIFExecutable.cpp" />
-    <ClCompile Include="DIFLoad.cpp" />
-    <ClCompile Include="DIFOpType.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Memory.cpp" />
-    <ClCompile Include="Processor.cpp" />
-    <ClCompile Include="Runtime.cpp" />
-    <ClCompile Include="Work.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

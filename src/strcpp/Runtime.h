@@ -1,96 +1,107 @@
 #pragma once
-#include "Memory.h"
-#include "DIFExecutable.h"
-#include "BIOS.h"
-using namespace str::dif;
-using namespace str::firmware;
+#include "Common.h"
+#include "Instruction.h"
+using namespace std;
 namespace str
 {
-	namespace runtime
+	// The variable structure
+	class Variable
 	{
+	public:
+		int id;
+		vector<Byte> content;
 
-		// Label
-		typedef struct
+		// Initialize
+		Variable(int size,int newID)
 		{
-			int ID;
-			int Location;
-		} cLabel;
+			content.resize(size);
+			id = newID;
+		}
 
-		// Label Array
-		typedef struct
+		// Change the content to the value
+		void set(vector<Byte> newC)
 		{
-			cLabel *value;
-			int size;
-			int current;
-		} LArray;
+			content.resize(newC.size());
 
-		// Process
-		typedef struct
-		{
-			IArray inst;
-			bool running;
-			int current;
-
-			// Step in the process
-			Instruction Step()
+			for (int i = 0; (size_t)i < newC.size(); i++)
 			{
-				if (current >= inst.size)
-				{
-					throw(false);
-				}
-				current++;
-				return inst.value[current];
+				content[i] = newC[i];
 			}
+		}
+	};
 
-		} Process;
+	// The memeory manager class
+	class Memory
+	{
+	private:
+		vector<Variable> variables;
 
-		// Process Array
-		typedef struct
+	public:
+		// Allocate a new variable
+		void alloc(Variable var)
 		{
-			Process *value;
-			int size;
-			int current;
-		} PArray;
-		// The runtime class
-		class Runtime
+			variables.push_back(var);
+		}
+
+		// Remove a variable from id
+		void remove(int id)
 		{
-		public:
-			// Running check
-			bool Running();
+			for (int i = 0; (size_t)i < variables.size(); i++)
+				if (variables[i].id == id)
+				{
+					variables.erase(variables.begin() + i);
+					return;
+				}
+		}
 
-			// Initialize the runtime
-			Runtime(int);
+		// Get value
+		vector<Byte> get(int id)
+		{
+			for (int i = 0; (size_t)i < variables.size(); i++)
+				if (variables[i].id == id)
+					return variables[i].content;
+			vector<Byte>x;
+			x.push_back(0);
+			return x;
+		}
 
-			//  Add a new process
-			void Start(Executable);
+		// Assign bytes to a variable
+		void assign(int id, vector<Byte> newC)
+		{
+			for (int i = 0; (size_t)i < variables.size(); i++)
+				if (variables[i].id == id)
+				{
+					variables[i].set(newC);
+					return;
+				}
+		}
 
-			// Step once in every process
-			void Step();
+		// Replace the variable content with single byte 0
+		void clear(int id)
+		{
+			for (int i = 0; (size_t)i < variables.size(); i++)
+				if (variables[i].id == id)
+				{
+					vector<Byte> empty;
+					empty.push_back(0);
+					variables[i].set(empty);
+					return;
+				}
+		}
 
-			// Basic output / input system (it's public)
-			BIOS bios;
+	};
 
-		private:
-			// Current Process Number
-			int pNum;
+	// The Runtime Class
+	class Runtime
+	{
+	private:
+		Memory memory = Memory();
 
-			// Process the instruction
-			void Work(Instruction);
+	public:
+		// Run the runtime
+		void Run()
+		{
 
-			// Initialize reserved
-			void Reserved(int);
-
-			// The memory
-			Memory *memory;
-
-			// Processes
-			PArray *processes;
-
-			// Labels
-			LArray *labels;
-
-			// Processor
-			BArray Processor(Instruction, int*);
-		};
-	}
+		}
+	};
 }

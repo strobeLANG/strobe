@@ -2,42 +2,30 @@
 #include "Common.h"
 namespace str
 {
-
-	// Operation Type Enum
+	// OpType
 	enum OpType
 	{
-		Null, // Nothing.
-		Add, // Add two numbers
-		Subtract, // Subtract two numbers
-		Divide, // Divide two numbers
-		Mutiply, // Multiply two numbers
-		Allocate, // Allocate space
-		Assign, // Asign data to variable
-		Interrupt, // Interrupt
-		Compare, // Compare
-		Move, // Move data from variable to variable
-		Addr, // Move address from variable to variable
-		Goto, // Jump to a label
-		Label, // Define a label
-		Clear, // Clear a variable
+		Op_Null,
+		Op_Add,
+		Op_Subtract,
+		Op_Divide,
+		Op_Mutiply,
+		Op_Allocate,
+		Op_Assign,
+		Op_Interrupt,
+		Op_Compare,
+		Op_Move,
+		Op_Addr,
+		Op_Goto,
+		Op_Label,
+		Op_Clear,
 	};
-	// The instruction class
+
+	// Insturction Class
 	class Instruction
 	{
 	public:
-		OpType Operation; // Operation
-		BArray Parameters; // Parameters
-
-						   // Definition
-		Instruction(OpType inop, BArray inp)
-		{
-			Operation = inop; // Operation
-			Parameters = inp; // Parameters
-		}
+		OpType operation;
+		vector<Byte> parameters;
 	};
-	// Instruction Array
-	typedef struct {
-		Instruction *value;
-		int size;
-	} IArray;
 }
