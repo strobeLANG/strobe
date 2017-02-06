@@ -315,7 +315,9 @@ namespace StrobeVM.Firmware
                 Alloc.Remove(clear);
 
                 // A list is needed
-                List<byte> newRam = new List<byte>(mem.Ram);
+                List<byte> newRam = new List<byte>();
+                for (int i = 0; i < mem.Ram.Length; i++)
+                    newRam.Add(mem.Ram[i]);
 
                 // Loop trough the allocated space and remove it
                 for (int i = addr; i < addr + size; i++)

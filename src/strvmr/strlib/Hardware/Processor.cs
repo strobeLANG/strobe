@@ -103,7 +103,9 @@ namespace StrobeVM.Hardware
         /// <returns></returns>
         byte[] RemoveFirst(byte[] arr)
         {
-            List<byte> n = new List<byte>(arr);
+            List<byte> n = new List<byte>();
+            for (int i = 0; i < arr.Length; i++)
+                n.Add(arr[i]);
             n.RemoveAt(0);
             return n.ToArray();
         }
